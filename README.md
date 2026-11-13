@@ -1,5 +1,7 @@
 # HP COLLECTION
 
+[![Vérification et build](https://github.com/gratias123/HP-shopping/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/gratias123/HP-shopping/actions/workflows/ci.yml)
+
 Boutique e-commerce complète pour **HP COLLECTION** : streetwear, sneakers et accessoires.
 Marché principal : **Bénin**. Devise : **franc CFA (XOF)**. Interface publique en français, administration sécurisée, catalogue et commandes persistants.
 
