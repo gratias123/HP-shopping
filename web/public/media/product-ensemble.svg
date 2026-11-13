@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-label="Ensemble survêtement — visuel de démonstration">
+  <defs>
+    <linearGradient id="b" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#EAE6DA"/><stop offset="1" stop-color="#D9D3C2"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#b)"/>
+  <rect x="560" y="140" width="180" height="180" fill="#C7A747" opacity=".65"/>
+  <text x="48" y="66" font-family="Arial, sans-serif" font-size="12" letter-spacing="5" fill="#777D86">HP COLLECTION</text>
+  <text x="48" y="90" font-family="Arial, sans-serif" font-size="10" letter-spacing="4" fill="#777D86">VISUEL DE DÉMONSTRATION</text>
+  <ellipse cx="400" cy="900" rx="240" ry="22" fill="#171717" opacity=".08"/>
+  <!-- jacket -->
+  <path d="M300 230 L220 280 L186 430 L240 452 L270 350 L270 600 H530 L530 350 L560 452 L614 430 L580 280 L500 230 Q400 276 300 230Z" fill="#202020"/>
+  <path d="M400 258V600" stroke="#C7A747" stroke-width="3"/>
+  <path d="M300 230 Q400 276 500 230" fill="none" stroke="#C7A747" stroke-width="3"/>
+  <path d="M230 280 L270 350M570 280 L530 350" stroke="#F4F1E9" stroke-width="3" opacity=".5"/>
+  <rect x="330" y="400" width="140" height="12" fill="none" stroke="#C7A747" stroke-width="2"/>
+  <text x="400" y="486" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" letter-spacing="6" fill="#C7A747">HP</text>
+  <!-- pants -->
+  <path d="M300 640H500L520 880H430L410 740L390 880H280Z" fill="#202020"/>
+  <path d="M300 670H500" stroke="#C7A747" stroke-width="2"/>
+  <path d="M48 916H752" stroke="#171717" stroke-opacity=".2"/>
+  <text x="48" y="952" font-family="Arial, sans-serif" font-size="16" letter-spacing="2" fill="#171717">ENSEMBLE SURVÊTEMENT — DEMO</text>
+  <text x="48" y="975" font-family="Arial, sans-serif" font-size="10" letter-spacing="3" fill="#777D86">ILLUSTRATION ABSTRAITE · AUCUNE PHOTO PRODUIT</text>
+</svg>

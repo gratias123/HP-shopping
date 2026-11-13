@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-label="Veste varsity — visuel de démonstration">
+  <defs>
+    <linearGradient id="b" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#EAE6DA"/><stop offset="1" stop-color="#D6D0BF"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#b)"/>
+  <circle cx="640" cy="260" r="140" fill="#C7A747" opacity=".3"/>
+  <text x="48" y="66" font-family="Arial, sans-serif" font-size="12" letter-spacing="5" fill="#777D86">HP COLLECTION</text>
+  <text x="48" y="90" font-family="Arial, sans-serif" font-size="10" letter-spacing="4" fill="#777D86">VISUEL DE DÉMONSTRATION</text>
+  <ellipse cx="400" cy="880" rx="240" ry="22" fill="#171717" opacity=".08"/>
+  <path d="M300 270 L214 320 L180 600 L238 620 L270 470 L270 840 H530 L530 470 L562 620 L620 600 L586 320 L500 270 Q400 320 300 270Z" fill="#1E1E1E"/>
+  <path d="M300 270 L250 300 L300 390 L340 300Z" fill="#F4F1E9"/>
+  <path d="M500 270 L550 300 L500 390 L460 300Z" fill="#F4F1E9"/>
+  <path d="M300 270 Q400 320 500 270" fill="none" stroke="#C7A747" stroke-width="4"/>
+  <path d="M270 800H530" stroke="#8E939A" stroke-width="18"/>
+  <path d="M214 320 L180 600" stroke="#8E939A" stroke-width="12"/>
+  <path d="M586 320 L620 600" stroke="#8E939A" stroke-width="12"/>
+  <circle cx="400" cy="500" r="52" fill="#C7A747"/>
+  <text x="400" y="512" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-size="28" font-weight="900" letter-spacing="-2" fill="#171717">HP</text>
+  <path d="M340 420H460" stroke="#C7A747" stroke-width="2"/>
+  <path d="M400 320V420" stroke="#F4F1E9" stroke-width="2"/>
+  <circle cx="400" cy="360" r="4" fill="#C7A747"/><circle cx="400" cy="390" r="4" fill="#C7A747"/>
+  <path d="M48 916H752" stroke="#171717" stroke-opacity=".2"/>
+  <text x="48" y="952" font-family="Arial, sans-serif" font-size="16" letter-spacing="2" fill="#171717">VESTE VARSITY — DEMO</text>
+  <text x="48" y="975" font-family="Arial, sans-serif" font-size="10" letter-spacing="3" fill="#777D86">ILLUSTRATION ABSTRAITE · AUCUNE PHOTO PRODUIT</text>
+</svg>

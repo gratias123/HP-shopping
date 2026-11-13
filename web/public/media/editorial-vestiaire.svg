@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 960" role="img" aria-label="Le vestiaire HP COLLECTION — planche de démonstration">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F4F1E9"/>
+      <stop offset="1" stop-color="#E3DDCE"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="960" fill="url(#bg)"/>
+  <g opacity=".08" stroke="#171717">
+    <path d="M0 160H1200M0 320H1200M0 480H1200M0 640H1200M0 800H1200"/>
+    <path d="M200 0V960M400 0V960M600 0V960M800 0V960M1000 0V960"/>
+  </g>
+  <text x="60" y="96" font-family="Arial, sans-serif" font-size="12" letter-spacing="6" fill="#777D86">PLANCHE 01 — LE VESTIAIRE</text>
+  <text x="60" y="168" font-family="Arial Black, Arial, sans-serif" font-size="60" font-weight="900" letter-spacing="-3" fill="#171717">PIÈCES ESSENTIELLES</text>
+  <path d="M60 200H1140" stroke="#171717" stroke-opacity=".25"/>
+
+  <!-- Hoodie -->
+  <g transform="translate(110 250)">
+    <path d="M120 90 Q170 30 220 90 Q232 125 205 140 Q170 152 135 140 Q108 125 120 90Z" fill="#1C1C1C"/>
+    <path d="M130 130 L70 880 Q170 910 270 880 L210 130 Q170 150 130 130Z" fill="#242424"/>
+    <path d="M130 140 Q70 190 46 330 L92 350 Q118 240 158 190Z" fill="#1C1C1C"/>
+    <path d="M210 140 Q270 190 294 330 L248 350 Q222 240 182 190Z" fill="#1C1C1C"/>
+    <path d="M140 430H200L184 560H156Z" fill="#151515"/>
+    <path d="M150 480H190L182 620H158Z" fill="none" stroke="#C7A747" stroke-width="2"/>
+    <path d="M170 155V230" stroke="#C7A747" stroke-width="3"/>
+    <text x="150" y="700" font-family="Arial, sans-serif" font-size="13" letter-spacing="3" fill="#C7A747">HP</text>
+  </g>
+
+  <!-- Cargo -->
+  <g transform="translate(470 250)">
+    <path d="M70 40H230L250 170L230 840H150L160 430L120 840H50L40 170Z" fill="#1C1C1C"/>
+    <rect x="54" y="180" width="34" height="52" fill="#2B2B2B"/>
+    <rect x="212" y="180" width="34" height="52" fill="#2B2B2B"/>
+    <path d="M40 120H250" stroke="#C7A747" stroke-width="2"/>
+    <circle cx="145" cy="70" r="7" fill="#C7A747"/>
+  </g>
+
+  <!-- Sneaker -->
+  <g transform="translate(760 500)">
+    <path d="M20 230 Q20 170 80 160 L190 140 Q240 120 290 160 L340 200 Q370 220 370 260 L370 290 H20Z" fill="#1C1C1C"/>
+    <path d="M10 290H380Q396 290 396 308V324H10Z" fill="#F4F1E9" stroke="#171717" stroke-width="3"/>
+    <path d="M90 190 L200 250" stroke="#C7A747" stroke-width="5"/>
+    <path d="M120 170 L230 230M150 156 L255 214" stroke="#777D86" stroke-width="3"/>
+    <circle cx="300" cy="250" r="6" fill="#C7A747"/>
+    <text x="190" y="315" font-family="Arial, sans-serif" font-size="10" letter-spacing="3" fill="#171717">DEMO</text>
+  </g>
+
+  <!-- Cap -->
+  <g transform="translate(870 170)">
+    <path d="M40 120 Q40 30 120 30 Q200 30 200 120Z" fill="#1C1C1C"/>
+    <path d="M200 96 Q270 96 280 132 Q270 150 200 144Z" fill="#242424"/>
+    <path d="M120 34V120" stroke="#C7A747" stroke-width="2"/>
+    <circle cx="120" cy="34" r="5" fill="#C7A747"/>
+  </g>
+
+  <path d="M60 880H1140" stroke="#171717" stroke-opacity=".25"/>
+  <text x="60" y="916" font-family="Arial, sans-serif" font-size="11" letter-spacing="4" fill="#777D86">VISUELS ABSTRAITS DE DÉMONSTRATION — AUCUNE PHOTO PRODUIT RÉELLE</text>
+</svg>

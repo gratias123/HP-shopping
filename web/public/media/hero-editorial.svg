@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 1200" role="img" aria-label="Composition éditoriale HP COLLECTION — visuel de démonstration">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F7F4EC"/>
+      <stop offset="0.55" stop-color="#EAE5D8"/>
+      <stop offset="1" stop-color="#DCD5C3"/>
+    </linearGradient>
+    <linearGradient id="ink" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#242424"/>
+      <stop offset="1" stop-color="#111111"/>
+    </linearGradient>
+    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M60 0H0V60" fill="none" stroke="#171717" stroke-opacity=".06"/>
+    </pattern>
+  </defs>
+  <rect width="960" height="1200" fill="url(#bg)"/>
+  <rect width="960" height="1200" fill="url(#grid)"/>
+  <circle cx="760" cy="250" r="200" fill="#C7A747" opacity=".9"/>
+  <circle cx="760" cy="250" r="140" fill="none" stroke="#171717" stroke-opacity=".2"/>
+  <rect x="70" y="90" width="470" height="760" fill="url(#ink)"/>
+  <path d="M70 700 Q260 600 540 690 V850 H70Z" fill="#2D2D2D"/>
+  <path d="M250 620 Q330 520 410 620 Q430 690 380 720 Q330 745 280 720 Q230 690 250 620Z" fill="none" stroke="#C7A747" stroke-width="3"/>
+  <path d="M250 620 Q330 540 410 620" fill="none" stroke="#C7A747" stroke-width="3"/>
+  <text x="100" y="240" font-family="Arial Black, Arial, sans-serif" font-size="150" font-weight="900" letter-spacing="-10" fill="#F4F1E9">HP</text>
+  <text x="103" y="292" font-family="Arial, sans-serif" font-size="26" font-weight="700" letter-spacing="14" fill="#C7A747">COLLECTION</text>
+  <text x="103" y="390" font-family="Georgia, serif" font-size="34" font-style="italic" fill="#F4F1E9">Le vestiaire</text>
+  <text x="103" y="432" font-family="Georgia, serif" font-size="34" font-style="italic" fill="#F4F1E9">urbain.</text>
+  <rect x="103" y="470" width="64" height="2" fill="#C7A747"/>
+  <text x="103" y="520" font-family="Arial, sans-serif" font-size="14" letter-spacing="4" fill="#CFC9BA">SÉLECTION — VOL. 01</text>
+  <text x="103" y="548" font-family="Arial, sans-serif" font-size="14" letter-spacing="4" fill="#CFC9BA">TON STYLE. TES RÈGLES.</text>
+  <text x="600" y="930" font-family="Arial, sans-serif" font-size="12" letter-spacing="6" fill="#171717" opacity=".6">SÉLECTION URBAINE</text>
+  <text x="600" y="1000" font-family="Arial Black, Arial, sans-serif" font-size="44" font-weight="900" letter-spacing="-2" fill="#171717">NOUVELLE</text>
+  <text x="600" y="1046" font-family="Arial Black, Arial, sans-serif" font-size="44" font-weight="900" letter-spacing="-2" fill="#171717">SAISON</text>
+  <rect x="600" y="1076" width="290" height="1" fill="#171717" opacity=".25"/>
+  <text x="600" y="1110" font-family="Arial, sans-serif" font-size="11" letter-spacing="4" fill="#171717" opacity=".55">VISUEL DE DÉMONSTRATION</text>
+  <g stroke="#171717" stroke-width="1" opacity=".55">
+    <path d="M70 870H540"/>
+    <path d="M70 890H410"/>
+    <path d="M70 910H300"/>
+  </g>
+</svg>

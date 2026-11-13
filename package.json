@@ -1,0 +1,34 @@
+{
+  "name": "hp-collection",
+  "private": true,
+  "version": "1.0.0",
+  "description": "HP COLLECTION — boutique e-commerce streetwear, sneakers et accessoires",
+  "workspaces": [
+    "server",
+    "web"
+  ],
+  "scripts": {
+    "dev": "concurrently -n api,web -c yellow,cyan \"npm:dev -w server\" \"npm:dev -w web\"",
+    "dev:server": "npm run dev -w server",
+    "dev:web": "npm run dev -w web",
+    "build": "npm run build -w server && npm run build -w web",
+    "start": "npm run start -w server",
+    "seed": "npm run seed -w server",
+    "db:reset": "npm run db:reset -w server",
+    "admin:create": "npm run admin:create -w server",
+    "backup": "npm run backup -w server",
+    "backup:verify": "npm run backup:verify -w server",
+    "test": "npm run test -w server",
+    "typecheck": "npm run typecheck -w server && npm run typecheck -w web"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "engines": {
+    "node": ">=22.13"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "esbuild@0.25.12": true
+  }
+}

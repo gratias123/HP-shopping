@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-label="Sac en toile — visuel de démonstration">
+  <defs>
+    <linearGradient id="b" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#EFEBE0"/><stop offset="1" stop-color="#DAD4C3"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#b)"/>
+  <circle cx="190" cy="640" r="150" fill="#C7A747" opacity=".25"/>
+  <text x="48" y="66" font-family="Arial, sans-serif" font-size="12" letter-spacing="5" fill="#777D86">HP COLLECTION</text>
+  <text x="48" y="90" font-family="Arial, sans-serif" font-size="10" letter-spacing="4" fill="#777D86">VISUEL DE DÉMONSTRATION</text>
+  <ellipse cx="400" cy="870" rx="230" ry="24" fill="#171717" opacity=".1"/>
+  <g transform="translate(190 260)">
+    <path d="M80 200 Q80 60 210 60 Q340 60 340 200" fill="none" stroke="#171717" stroke-width="16"/>
+    <path d="M20 200H400L430 560H-10Z" fill="#1C1C1C"/>
+    <path d="M20 240H400" stroke="#C7A747" stroke-width="3"/>
+    <rect x="160" y="330" width="100" height="70" fill="none" stroke="#C7A747" stroke-width="2"/>
+    <text x="210" y="370" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-size="20" font-weight="900" fill="#C7A747">HP</text>
+    <text x="210" y="390" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" letter-spacing="3" fill="#C7A747">COLLECTION</text>
+    <path d="M-10 560 Q210 590 430 560" fill="none" stroke="#171717" stroke-width="3"/>
+  </g>
+  <path d="M48 916H752" stroke="#171717" stroke-opacity=".2"/>
+  <text x="48" y="952" font-family="Arial, sans-serif" font-size="16" letter-spacing="2" fill="#171717">SAC EN TOILE — DEMO</text>
+  <text x="48" y="975" font-family="Arial, sans-serif" font-size="10" letter-spacing="3" fill="#777D86">ILLUSTRATION ABSTRAITE · AUCUNE PHOTO PRODUIT</text>
+</svg>

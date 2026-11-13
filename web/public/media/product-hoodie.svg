@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-label="Hoodie noir — visuel de démonstration">
+  <defs>
+    <linearGradient id="b" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F1EDE1"/><stop offset="1" stop-color="#DFD9C9"/>
+    </linearGradient>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2A2A2A"/><stop offset="1" stop-color="#141414"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#b)"/>
+  <circle cx="610" cy="300" r="180" fill="#C7A747" opacity=".22"/>
+  <text x="48" y="66" font-family="Arial, sans-serif" font-size="12" letter-spacing="5" fill="#777D86">HP COLLECTION</text>
+  <text x="48" y="90" font-family="Arial, sans-serif" font-size="10" letter-spacing="4" fill="#777D86">VISUEL DE DÉMONSTRATION</text>
+  <ellipse cx="400" cy="900" rx="230" ry="24" fill="#171717" opacity=".08"/>
+  <g>
+    <path d="M282 300 Q330 210 400 208 Q470 210 518 300 Q540 350 500 372 Q400 404 300 372 Q260 350 282 300Z" fill="url(#g)"/>
+    <path d="M312 350 L208 880 Q400 930 592 880 L488 350 Q400 388 312 350Z" fill="url(#g)"/>
+    <path d="M312 356 Q232 410 196 600 L252 626 Q286 482 336 420Z" fill="#1A1A1A"/>
+    <path d="M488 356 Q568 410 604 600 L548 626 Q514 482 464 420Z" fill="#1A1A1A"/>
+    <path d="M320 640 Q400 680 480 640 L470 760 Q400 790 330 760Z" fill="#101010"/>
+    <path d="M368 380 Q400 400 432 380" fill="none" stroke="#C7A747" stroke-width="2"/>
+    <text x="400" y="522" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-size="17" font-weight="900" letter-spacing="5" fill="#C7A747">HP</text>
+    <path d="M380 356V440M420 356V440" stroke="#C7A747" stroke-width="3"/>
+    <circle cx="380" cy="446" r="4" fill="#C7A747"/><circle cx="420" cy="446" r="4" fill="#C7A747"/>
+  </g>
+  <path d="M48 916H752" stroke="#171717" stroke-opacity=".2"/>
+  <text x="48" y="952" font-family="Arial, sans-serif" font-size="16" letter-spacing="2" fill="#171717">HOODIE À CAPUCHE — DEMO</text>
+  <text x="48" y="975" font-family="Arial, sans-serif" font-size="10" letter-spacing="3" fill="#777D86">ILLUSTRATION ABSTRAITE · AUCUNE PHOTO PRODUIT</text>
+</svg>

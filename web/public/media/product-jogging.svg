@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-label="Jogging gris — visuel de démonstration">
+  <defs>
+    <linearGradient id="b" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#EFEBE0"/><stop offset="1" stop-color="#DDD7C6"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#b)"/>
+  <circle cx="620" cy="700" r="150" fill="#C7A747" opacity=".2"/>
+  <text x="48" y="66" font-family="Arial, sans-serif" font-size="12" letter-spacing="5" fill="#777D86">HP COLLECTION</text>
+  <text x="48" y="90" font-family="Arial, sans-serif" font-size="10" letter-spacing="4" fill="#777D86">VISUEL DE DÉMONSTRATION</text>
+  <ellipse cx="400" cy="905" rx="210" ry="20" fill="#171717" opacity=".08"/>
+  <path d="M290 210H510L536 300L520 900H420L400 470L380 900H280L264 300Z" fill="#6E747C"/>
+  <path d="M290 240H510" stroke="#4C5259" stroke-width="4"/>
+  <path d="M300 260H500" stroke="#F4F1E9" stroke-width="3"/>
+  <path d="M350 270V430M450 270V430" stroke="#F4F1E9" stroke-width="2"/>
+  <rect x="286" y="600" width="70" height="82" fill="#5F656D"/>
+  <rect x="444" y="600" width="70" height="82" fill="#5F656D"/>
+  <text x="400" y="700" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" letter-spacing="5" fill="#C7A747">HP</text>
+  <path d="M48 916H752" stroke="#171717" stroke-opacity=".2"/>
+  <text x="48" y="952" font-family="Arial, sans-serif" font-size="16" letter-spacing="2" fill="#171717">JOGGING COUPE DROITE — DEMO</text>
+  <text x="48" y="975" font-family="Arial, sans-serif" font-size="10" letter-spacing="3" fill="#777D86">ILLUSTRATION ABSTRAITE · AUCUNE PHOTO PRODUIT</text>
+</svg>
