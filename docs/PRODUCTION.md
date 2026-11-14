@@ -2,6 +2,8 @@
 
 Ce document décrit la préparation technique et l’exploitation du service.
 
+Pour l’architecture Vercel + Render, voir [`DEPLOY_VERCEL_RENDER.md`](DEPLOY_VERCEL_RENDER.md).
+
 ## 1. Checklist avant ouverture
 
 - [ ] Renseigner `APP_URL` avec le domaine public **HTTPS** et configurer le certificat.
