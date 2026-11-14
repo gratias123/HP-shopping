@@ -134,6 +134,8 @@ export const productSchema = z.object({
   saleEndsAt: isoDateNullable,
   status: z.enum(['draft', 'published', 'archived']).default('draft'),
   isFeatured: z.boolean().default(false),
+  gender: z.enum(['homme', 'femme', 'mixte']).default('mixte'),
+  collection: z.string().trim().max(80).optional().or(z.literal('')),
   lowStockAlert: z.number().int().min(0).max(100000).nullable().optional(),
   images: z.array(productImageSchema).max(10).default([]),
   variants: z.array(variantSchema).min(1, 'Ajoutez au moins une variante (taille / couleur).').max(120),

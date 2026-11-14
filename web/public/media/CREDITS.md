@@ -32,3 +32,10 @@ Les noms des auteurs ne figuraient pas dans les fichiers de travail ; les liens
 de source et les licences sont conservés ci-dessus. Avant une mise en
 production, remplacer ces photos par les visuels réels des articles et mettre à
 jour ce fichier.
+
+## Visuel d’accueil
+
+`hero-hp-collection.jpg` : photographie fournie par le propriétaire de HP COLLECTION
+pour la page d’accueil. Vérifier avant production que les droits de la photo et
+l’accord du mannequin pour un usage commercial sont bien détenus.
+`product-ensemble.jpg` (Pexels 37124604) reste utilisé comme visuel de l’article de démonstration.

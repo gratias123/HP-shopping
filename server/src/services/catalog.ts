@@ -15,7 +15,7 @@ export const priceExpr = (alias = 'p') => `(CASE
 
 const CARD_COLUMNS = `
   p.id, p.reference, p.slug, p.name, p.short_description, p.price_cents, p.sale_price_cents,
-  p.sale_starts_at, p.sale_ends_at, p.status, p.is_featured, p.created_at, p.low_stock_alert,
+  p.sale_starts_at, p.sale_ends_at, p.status, p.is_featured, p.gender, p.collection, p.created_at, p.low_stock_alert,
   ${priceExpr('p')} AS effective_price_cents,
   c.id AS category_id, c.name AS category_name, c.slug AS category_slug,
   (SELECT i.url FROM product_images i WHERE i.product_id = p.id ORDER BY i.sort_order, i.created_at LIMIT 1) AS image_url,
@@ -51,6 +51,8 @@ interface CardRow {
   sizes: string | null;
   colors: string | null;
   units_sold: number;
+  gender: string;
+  collection: string | null;
 }
 
 export interface ProductCard {
@@ -72,6 +74,8 @@ export interface ProductCard {
   sizes: string[];
   colors: string[];
   unitsSold: number;
+  gender: 'homme' | 'femme' | 'mixte';
+  collection: string | null;
   createdAt: string;
 }
 
@@ -96,6 +100,8 @@ function mapCard(row: CardRow): ProductCard {
     sizes: row.sizes ? row.sizes.split(',') : [],
     colors: row.colors ? row.colors.split(',') : [],
     unitsSold: Number(row.units_sold ?? 0),
+    gender: (['homme', 'femme', 'mixte'].includes(row.gender) ? row.gender : 'mixte') as 'homme' | 'femme' | 'mixte',
+    collection: row.collection ?? null,
     createdAt: row.created_at,
   };
 }
@@ -103,6 +109,11 @@ function mapCard(row: CardRow): ProductCard {
 export interface ProductQuery {
   q?: string;
   category?: string;
+  /** Plusieurs catégories (slugs) : utile pour les sections d'accueil transversales. */
+  categories?: string[];
+  /** Public : « homme » ou « femme » incluent aussi les articles mixtes. */
+  gender?: 'homme' | 'femme' | 'mixte';
+  collection?: string;
   sizes?: string[];
   colors?: string[];
   minPriceCents?: number;
@@ -147,6 +158,21 @@ export function listProducts(query: ProductQuery = {}): { items: ProductCard[]; 
   if (query.category) {
     where.push(`(c.slug = ? OR c.parent_id = (SELECT id FROM categories WHERE slug = ?))`);
     params.push(query.category, query.category);
+  }
+  if (query.categories?.length) {
+    where.push(`c.slug IN (${query.categories.map(() => '?').join(',')})`);
+    params.push(...query.categories);
+  }
+  if (query.gender) {
+    if (query.gender === 'mixte') where.push(`p.gender = 'mixte'`);
+    else {
+      where.push(`(p.gender = ? OR p.gender = 'mixte')`);
+      params.push(query.gender);
+    }
+  }
+  if (query.collection) {
+    where.push('p.collection = ? COLLATE NOCASE');
+    params.push(query.collection);
   }
   if (query.sizes?.length) {
     where.push(
@@ -302,9 +328,12 @@ export interface CategoryDto {
 export function listCategories(options: { includeUnpublished?: boolean } = {}): CategoryDto[] {
   const rows = queryAll<Record<string, SqlPrimitive>>(
     `SELECT c.id, c.slug, c.name, c.description, c.image_url, c.image_alt, c.parent_id, c.sort_order, c.published,
-       (SELECT COUNT(*) FROM products p WHERE p.category_id = c.id AND p.status = 'published') AS product_count,
+       (SELECT COUNT(*) FROM products p
+         WHERE (p.category_id = c.id OR p.category_id IN (SELECT sc.id FROM categories sc WHERE sc.parent_id = c.id))
+           AND p.status = 'published') AS product_count,
        (SELECT i.url FROM products p JOIN product_images i ON i.product_id = p.id
-         WHERE p.category_id = c.id AND p.status = 'published'
+         WHERE (p.category_id = c.id OR p.category_id IN (SELECT sc.id FROM categories sc WHERE sc.parent_id = c.id))
+           AND p.status = 'published'
          ORDER BY p.created_at DESC, i.sort_order LIMIT 1) AS fallback_image
      FROM categories c
      ${options.includeUnpublished ? '' : 'WHERE c.published = 1'}
@@ -321,6 +350,36 @@ export function listCategories(options: { includeUnpublished?: boolean } = {}): 
     sortOrder: Number(row.sort_order),
     published: Number(row.published) === 1,
     productCount: Number(row.product_count ?? 0),
+  }));
+}
+
+export interface CollectionDto {
+  name: string;
+  productCount: number;
+  imageUrl: string | null;
+  imageAlt: string | null;
+}
+
+/** Collections réellement renseignées sur des produits publiés (aucune donnée fictive). */
+export function listCollections(): CollectionDto[] {
+  const rows = queryAll<Record<string, SqlPrimitive>>(
+    `SELECT p.collection AS name, COUNT(*) AS product_count,
+       (SELECT i.url FROM products p2 JOIN product_images i ON i.product_id = p2.id
+         WHERE p2.collection = p.collection COLLATE NOCASE AND p2.status = 'published'
+         ORDER BY p2.created_at DESC, i.sort_order LIMIT 1) AS image_url,
+       (SELECT i.alt FROM products p2 JOIN product_images i ON i.product_id = p2.id
+         WHERE p2.collection = p.collection COLLATE NOCASE AND p2.status = 'published'
+         ORDER BY p2.created_at DESC, i.sort_order LIMIT 1) AS image_alt
+       FROM products p JOIN categories c ON c.id = p.category_id
+      WHERE p.status = 'published' AND c.published = 1 AND p.collection IS NOT NULL AND trim(p.collection) != ''
+      GROUP BY p.collection COLLATE NOCASE
+      ORDER BY MAX(p.created_at) DESC`,
+  );
+  return rows.map((row) => ({
+    name: String(row.name),
+    productCount: Number(row.product_count),
+    imageUrl: (row.image_url as string | null) ?? null,
+    imageAlt: (row.image_alt as string | null) ?? null,
   }));
 }
 
@@ -381,7 +440,25 @@ export function homePayload() {
   const newArrivals = listProducts({ perPage: 4, sort: 'newest' }).items;
   const featured = listProducts({ perPage: 4, featuredOnly: true, sort: 'newest' }).items;
   const sale = listProducts({ perPage: 4, onSaleOnly: true, sort: 'newest' }).items;
-  const categories = listCategories().slice(0, 8);
+  const allCategories = listCategories();
+  const hasChildren = (id: string) => allCategories.some((entry) => entry.parentId === id);
+  const groups = allCategories.filter((entry) => entry.parentId === null && hasChildren(entry.id));
+  const categories = allCategories.filter((entry) => entry.parentId !== null || !hasChildren(entry.id)).slice(0, 8);
+  const sections = {
+    homme: listProducts({ category: 'mode-homme', perPage: 4, sort: 'newest' }).items,
+    femme: listProducts({ category: 'mode-femme', perPage: 4, sort: 'newest' }).items,
+    sneakers: listProducts({
+      categories: [
+        'homme-sneakers',
+        'femme-sneakers',
+        'homme-chaussures-basketball',
+        'sport-chaussures-sportives',
+        'sport-tenues-basketball',
+      ],
+      perPage: 4,
+      sort: 'newest',
+    }).items,
+  };
   const bestSellers = hasSalesData() ? listBestSellers(4) : [];
   return {
     settings,
@@ -389,6 +466,9 @@ export function homePayload() {
     featured: featured.length ? featured : newArrivals,
     sale,
     categories,
+    groups,
+    sections,
+    collections: listCollections().slice(0, 4),
     bestSellers,
   };
 }

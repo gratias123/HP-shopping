@@ -38,11 +38,11 @@ test('le catalogue public expose uniquement les articles publiés de démonstrat
 test('les filtres catégorie, prix et tri sont appliqués côté serveur', async () => {
   const category = await ctx.client.request<ProductListResponse>(
     'GET',
-    '/api/products?category=sneakers&perPage=50',
+    '/api/products?category=homme-sneakers&perPage=50',
   );
   assert.equal(category.status, 200);
   assert.ok(category.data.items.length > 0);
-  assert.ok(category.data.items.every((item) => item.category.slug === 'sneakers'));
+  assert.ok(category.data.items.every((item) => item.category.slug === 'homme-sneakers'));
 
   const sorted = await ctx.client.request<ProductListResponse>('GET', '/api/products?sort=price-asc&perPage=50');
   const prices = sorted.data.items.map((item) => item.effectivePriceCents);

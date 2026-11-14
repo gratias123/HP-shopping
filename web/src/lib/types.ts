@@ -24,6 +24,8 @@ export interface ProductCard {
   sizes?: string[];
   colors?: string[];
   unitsSold?: number;
+  gender: 'homme' | 'femme' | 'mixte';
+  collection: string | null;
   createdAt: string;
 }
 
@@ -106,12 +108,22 @@ export interface StoreConfig {
   lowStockThreshold: number;
 }
 
+export interface CollectionSummary {
+  name: string;
+  productCount: number;
+  imageUrl: string | null;
+  imageAlt: string | null;
+}
+
 export interface HomePayload {
   settings: SiteSettings;
   newArrivals: ProductCard[];
   featured: ProductCard[];
   sale: ProductCard[];
   categories: Category[];
+  groups: Category[];
+  sections: { homme: ProductCard[]; femme: ProductCard[]; sneakers: ProductCard[] };
+  collections: CollectionSummary[];
   bestSellers: ProductCard[];
 }
 

@@ -14,6 +14,8 @@ interface DemoProduct {
   slug: string;
   reference: string;
   category: string;
+  gender: 'homme' | 'femme' | 'mixte';
+  collection: string;
   shortDescription: string;
   description: string;
   priceCents: number;
@@ -25,57 +27,6 @@ interface DemoProduct {
   care: string;
   variants: DemoVariant[];
 }
-
-const CATEGORIES = [
-  {
-    slug: 'ensembles-jogging',
-    name: 'Ensembles & survêtements',
-    description: 'Ensembles coordonnés, joggings et survêtements pensés pour le quotidien urbain.',
-    image: '/media/product-ensemble.jpg',
-  },
-  {
-    slug: 'sneakers',
-    name: 'Sneakers lifestyle',
-    description: 'Silhouettes basses et montantes pour accompagner le quotidien, du matin au soir.',
-    image: '/media/product-sneaker.jpg',
-  },
-  {
-    slug: 'basketball',
-    name: 'Chaussures de basketball',
-    description: 'Chaussures montantes, maintien renforcé et semelles conçues pour le parquet.',
-    image: '/media/product-basket.jpg',
-  },
-  {
-    slug: 'tshirts',
-    name: 'T-shirts, polos & chemises',
-    description: 'Coupes droites, matières épaisses et finitions nettes pour superposer sans effort.',
-    image: '/media/product-tee.jpg',
-  },
-  {
-    slug: 'jeans-pantalons',
-    name: 'Jeans, pantalons & shorts',
-    description: 'Denim, cargos et shorts : des basiques structurés qui tiennent la silhouette.',
-    image: '/media/product-cargo.jpg',
-  },
-  {
-    slug: 'sweats-hoodies',
-    name: 'Sweats & hoodies',
-    description: 'Molletons épais, coupes amples et détails discrets pour les journées fraîches.',
-    image: '/media/product-hoodie.jpg',
-  },
-  {
-    slug: 'vestes-streetwear',
-    name: 'Vestes & varsity',
-    description: 'Vestes bombers, varsity et couches intermédiaires au caractère affirmé.',
-    image: '/media/product-veste.jpg',
-  },
-  {
-    slug: 'accessoires',
-    name: 'Sacs, casquettes & accessoires',
-    description: 'Casquettes, ceintures et sacs pour compléter le look sans surcharger.',
-    image: '/media/product-cap.jpg',
-  },
-];
 
 const CLOTHING = (stock = 8): DemoVariant[] => [
   { size: 'S', color: 'Noir', colorHex: '#171717', stock },
@@ -91,7 +42,9 @@ const PRODUCTS: DemoProduct[] = [
     name: 'Hoodie molleton épais',
     slug: 'hoodie-molleton-epais',
     reference: 'DEMO-HD01',
-    category: 'sweats-hoodies',
+    category: 'homme-hoodies',
+    gender: 'homme',
+    collection: 'Essentiels urbains',
     shortDescription: 'Molleton gratté 420 g, coupe ample, poche kangourou.',
     description:
       "Hoodie à capuche en molleton gratté épais, coupe ample et épaules tombantes. Bord-côtes aux poignets et à la taille, cordon de capuche ton sur ton.\n\nArticle de démonstration : visuel et caractéristiques fictifs, à remplacer par les informations réelles du produit.",
@@ -107,7 +60,9 @@ const PRODUCTS: DemoProduct[] = [
     name: 'Jogging carotte côtelé',
     slug: 'jogging-carotte-cotele',
     reference: 'DEMO-JG02',
-    category: 'ensembles-jogging',
+    category: 'homme-joggings',
+    gender: 'homme',
+    collection: 'Essentiels urbains',
     shortDescription: 'Coupe carotte, taille élastiquée, bas resserrés.',
     description:
       'Jogging à coupe carotte en jersey côtelé, taille élastiquée avec cordon, deux poches latérales et bas resserrés.\n\nArticle de démonstration : visuel et caractéristiques fictifs, à remplacer par les informations réelles du produit.',
@@ -123,7 +78,9 @@ const PRODUCTS: DemoProduct[] = [
     name: 'Sneakers basses signature',
     slug: 'sneakers-basses-signature',
     reference: 'DEMO-SN03',
-    category: 'sneakers',
+    category: 'homme-sneakers',
+    gender: 'mixte',
+    collection: 'Sneakers & basket',
     shortDescription: 'Tige en cuir grainé, semelle vulcanisée, doublure textile.',
     description:
       'Sneakers basses à tige en cuir grainé et semelle vulcanisée. Languette rembourrée, œillets métalliques et semelle intérieure amovible.\n\nArticle de démonstration : visuel et caractéristiques fictifs, à remplacer par les informations réelles du produit.',
@@ -147,7 +104,9 @@ const PRODUCTS: DemoProduct[] = [
     name: 'Basket montante terrain',
     slug: 'basket-montante-terrain',
     reference: 'DEMO-BK04',
-    category: 'basketball',
+    category: 'homme-chaussures-basketball',
+    gender: 'homme',
+    collection: 'Sneakers & basket',
     shortDescription: 'Maintien cheville, amorti réactif, semelle adhérente.',
     description:
       'Chaussure de basketball montante avec maintien de cheville renforcé, amorti réactif et semelle extérieure à motif adhérent.\n\nArticle de démonstration : visuel et caractéristiques fictifs, à remplacer par les informations réelles du produit.',
@@ -167,7 +126,9 @@ const PRODUCTS: DemoProduct[] = [
     name: 'T-shirt épais col rond',
     slug: 'tshirt-epais-col-rond',
     reference: 'DEMO-TS05',
-    category: 'tshirts',
+    category: 'homme-t-shirts',
+    gender: 'mixte',
+    collection: 'Essentiels urbains',
     shortDescription: 'Coton épais 240 g, coupe droite, col renforcé.',
     description:
       'T-shirt en coton épais 240 g, coupe droite légèrement boxy, col rond renforcé et coutures latérales.\n\nArticle de démonstration : visuel et caractéristiques fictifs, à remplacer par les informations réelles du produit.',
@@ -188,7 +149,9 @@ const PRODUCTS: DemoProduct[] = [
     name: 'Veste varsity bicolore',
     slug: 'veste-varsity-bicolore',
     reference: 'DEMO-VS06',
-    category: 'vestes-streetwear',
+    category: 'homme-vestes',
+    gender: 'homme',
+    collection: 'Campus & varsity',
     shortDescription: 'Silhouette bomber, empiècements contrastés, doublure satinée.',
     description:
       'Veste varsity à silhouette bomber, empiècements contrastés sur les manches, doublure satinée et boutons pression.\n\nArticle de démonstration : visuel et caractéristiques fictifs, à remplacer par les informations réelles du produit.',
@@ -210,7 +173,9 @@ const PRODUCTS: DemoProduct[] = [
     name: 'Casquette six pans',
     slug: 'casquette-six-pans',
     reference: 'DEMO-CP07',
-    category: 'accessoires',
+    category: 'homme-casquettes',
+    gender: 'mixte',
+    collection: 'Campus & varsity',
     shortDescription: 'Cotton twill, visière préformée, fermeture réglable.',
     description:
       'Casquette six pans en coton twill, visière préformée, œillets brodés et fermeture réglable à boucle métallique.\n\nArticle de démonstration : visuel et caractéristiques fictifs, à remplacer par les informations réelles du produit.',
@@ -228,7 +193,9 @@ const PRODUCTS: DemoProduct[] = [
     name: 'Cargo droit ripstop',
     slug: 'cargo-droit-ripstop',
     reference: 'DEMO-CG08',
-    category: 'jeans-pantalons',
+    category: 'homme-pantalons',
+    gender: 'homme',
+    collection: 'Essentiels urbains',
     shortDescription: 'Toile ripstop, poches cargo, taille ajustable.',
     description:
       'Pantalon cargo droit en toile ripstop légère, poches latérales à rabat, taille ajustable par pattes et bas resserrables.\n\nArticle de démonstration : visuel et caractéristiques fictifs, à remplacer par les informations réelles du produit.',
@@ -249,7 +216,9 @@ const PRODUCTS: DemoProduct[] = [
     name: 'Ensemble sweat & short',
     slug: 'ensemble-sweat-short',
     reference: 'DEMO-EN09',
-    category: 'ensembles-jogging',
+    category: 'sport-ensembles-sportifs',
+    gender: 'mixte',
+    collection: 'Campus & varsity',
     shortDescription: 'Deux pièces coordonnées, jersey bouclette, coupe décontractée.',
     description:
       'Ensemble deux pièces en jersey bouclette : sweat col rond à coupe décontractée et short assorti avec cordon de serrage.\n\nArticle de démonstration : visuel et caractéristiques fictifs, à remplacer par les informations réelles du produit.',
@@ -264,7 +233,9 @@ const PRODUCTS: DemoProduct[] = [
     name: 'Sac banane technique',
     slug: 'sac-banane-technique',
     reference: 'DEMO-SB10',
-    category: 'accessoires',
+    category: 'homme-sacs-accessoires',
+    gender: 'mixte',
+    collection: 'Essentiels urbains',
     shortDescription: 'Nylon déperlant, sangle réglable, poche arrière zippée.',
     description:
       'Sac banane en nylon déperlant avec sangle réglable, fermeture zippée principale et poche arrière discrète.\n\nArticle de démonstration : visuel et caractéristiques fictifs, à remplacer par les informations réelles du produit.',
@@ -291,7 +262,7 @@ const SETTINGS: Record<string, string> = {
     'Streetwear, sneakers et accessoires sélectionnés pour composer un style qui vous ressemble. Des pièces actuelles, des matières pensées pour le quotidien.',
   heroCtaLabel: 'Découvrir la boutique',
   heroCtaHref: '/boutique',
-  heroImageUrl: '/media/hero-editorial.jpg',
+  heroImageUrl: '/media/hero-hp-collection.jpg',
   announcement: 'Livraison offerte dès 50 000 FCFA à Cotonou (données de démonstration)',
   contactEmail: 'contact@hpcollection.example',
   contactPhone: '',
@@ -330,26 +301,15 @@ export function seedDatabase(): { seeded: boolean; products: number } {
   const now = nowIso();
   const saleStart = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
   const saleEnd = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString();
-  const categoryIds = new Map<string, string>();
-
-  CATEGORIES.forEach((category, index) => {
-    const id = crypto.randomUUID();
-    categoryIds.set(category.slug, id);
-    execute(
-      `INSERT INTO categories (id, slug, name, description, image_url, image_alt, sort_order, published, created_at, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?, ?)`,
-      [id, category.slug, category.name, category.description, category.image, `${category.name} — photo d’illustration`, index, now, now],
-    );
-  });
 
   for (const product of PRODUCTS) {
     const productId = crypto.randomUUID();
-    const categoryId = categoryIds.get(product.category);
-    if (!categoryId) continue;
+    const categoryId = queryOne<{ id: string }>('SELECT id FROM categories WHERE slug = ?', [product.category])?.id;
+    if (!categoryId) throw new Error(`Catégorie de démonstration introuvable : ${product.category}`);
     execute(
       `INSERT INTO products (id, reference, slug, name, short_description, description, composition, care, category_id,
-        price_cents, sale_price_cents, sale_starts_at, sale_ends_at, status, is_featured, low_stock_alert, created_at, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'published', ?, 4, ?, ?)`,
+        price_cents, sale_price_cents, sale_starts_at, sale_ends_at, status, is_featured, gender, collection, low_stock_alert, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'published', ?, ?, ?, 4, ?, ?)`,
       [
         productId,
         product.reference,
@@ -365,6 +325,8 @@ export function seedDatabase(): { seeded: boolean; products: number } {
         product.salePriceCents ? saleStart : null,
         product.salePriceCents ? saleEnd : null,
         product.isFeatured ? 1 : 0,
+        product.gender,
+        product.collection,
         now,
         now,
       ],

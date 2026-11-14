@@ -2,6 +2,7 @@ import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { ProductGrid } from '../components/ProductCard';
 import { Breadcrumbs, EmptyState, ErrorState, Pagination, Seo, SkeletonGrid } from '../components/ui';
 import { queryString } from '../lib/api';
+import { useCategoryTree } from '../lib/categories';
 import { useApi } from '../lib/hooks';
 import { useSite } from '../lib/site';
 import type { Category, ProductsResponse } from '../lib/types';
@@ -11,6 +12,7 @@ export function CategoryPage() {
   const [params, setParams] = useSearchParams();
   const { store } = useSite();
   const page = Math.max(1, Number.parseInt(params.get('page') ?? '1', 10) || 1);
+  const tree = useCategoryTree();
   const category = useApi<{ category: Category }>(slug ? `/api/categories/${slug}` : null);
   const products = useApi<ProductsResponse>(
     slug ? `/api/products${queryString({ category: slug, page, perPage: 12, sort: params.get('sort') ?? 'newest' })}` : null,
@@ -33,6 +35,10 @@ export function CategoryPage() {
   }
 
   const data = category.data?.category;
+  const parentGroup = tree.groups.find(
+    (group) => group.category.slug === slug || group.children.some((child) => child.slug === slug),
+  );
+  const siblings = parentGroup ? parentGroup.children : [];
 
   return (
     <>
@@ -52,6 +58,21 @@ export function CategoryPage() {
             </div>
           ) : null}
         </header>
+
+        {siblings.length > 0 ? (
+          <nav className="chip-row" aria-label="Sous-catégories">
+            {parentGroup ? (
+              <Link to={`/categories/${parentGroup.category.slug}`} className="chip">
+                Tout {parentGroup.category.name.toLowerCase()}
+              </Link>
+            ) : null}
+            {siblings.map((entry) => (
+              <Link key={entry.id} to={`/categories/${entry.slug}`} className={`chip${entry.slug === slug ? ' is-active' : ''}`}>
+                {entry.name}
+              </Link>
+            ))}
+          </nav>
+        ) : null}
 
         <div className="category-toolbar">
           <p className="muted">{products.data ? `${products.data.total} article${products.data.total > 1 ? 's' : ''}` : ' '}</p>
