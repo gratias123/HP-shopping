@@ -1,20 +1,18 @@
 # Mise en production — HP COLLECTION
 
-Ce document décrit la préparation technique. Il ne remplace pas la validation
-juridique des CGV, de la politique de confidentialité et des mentions légales.
+Ce document décrit la préparation technique et l’exploitation du service.
 
 ## 1. Checklist avant ouverture
 
 - [ ] Renseigner `APP_URL` avec le domaine public **HTTPS** et configurer le certificat.
 - [ ] Générer un `SESSION_SECRET` aléatoire d’au moins 32 caractères.
 - [ ] Créer l’administrateur avec `npm run admin:create`, récupérer le mot de passe généré.
-- [ ] Remplir **Paramètres → Identité légale & hébergement** : raison sociale, forme juridique, RCCM, IFU, TVA, adresse, directeur de publication, coordonnées et hébergeur.
 - [ ] Remplacer l’e-mail `.example`, le téléphone, les réseaux et l’adresse par les coordonnées réelles.
 - [ ] Remplacer le catalogue de démonstration et les frais de livraison de démonstration.
 - [ ] Vérifier la page **Administration → Mise en production** : aucun point bloquant.
 - [ ] Créer et vérifier une sauvegarde : `npm run backup` puis `npm run backup:verify`.
 - [ ] Tester une restauration sur une base de recette, jamais directement en production.
-- [ ] Vérifier `robots.txt`, `sitemap.xml`, les pages légales et le parcours de commande complet.
+- [ ] Vérifier `robots.txt`, `sitemap.xml` et le parcours de commande complet.
 
 ## 2. Variables d’environnement
 
@@ -118,5 +116,4 @@ les `BACKUP_KEEP` plus récents.
 - SQLite local : une seule instance applicative, sauvegardes manuellement planifiées.
 - Mobile Money/FedaPay non configuré : seul le paiement à la réception est actif.
 - Aucun fournisseur e-mail/SMS/WhatsApp : pas d’envoi automatique de messages.
-- Les PDF sont des reçus non fiscaux.
-- Les mentions légales et CGV doivent être validées par un professionnel du droit béninois.
+- Les PDF sont des reçus de commande internes.

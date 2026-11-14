@@ -1,0 +1,42 @@
+services:
+  - type: web
+    name: hp-collection-api
+    runtime: node
+    region: frankfurt
+    plan: 0.5c-512mb
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATA_MODE
+        value: local
+      - key: CURRENCY
+        value: XOF
+      - key: DEFAULT_COUNTRY
+        value: BJ
+      - key: DATABASE_PATH
+        value: /var/data/hp-collection.sqlite
+      - key: UPLOAD_DIR
+        value: /var/data/uploads
+      - key: BACKUP_DIR
+        value: /var/data/backups
+      - key: BACKUP_RETENTION_DAYS
+        value: "14"
+      - key: BACKUP_KEEP
+        value: "5"
+      - key: ADMIN_SESSION_TTL_HOURS
+        value: "12"
+      - key: MAX_UPLOAD_MB
+        value: "5"
+      - key: LOW_STOCK_THRESHOLD
+        value: "5"
+      - key: APP_URL
+        sync: false
+      - key: SESSION_SECRET
+        generateValue: true
+    disk:
+      name: hp-collection-data
+      mountPath: /var/data
+      sizeGB: 1

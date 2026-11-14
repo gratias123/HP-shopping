@@ -10,7 +10,7 @@ Marché principal : **Bénin**. Devise : **franc CFA (XOF)**. Interface publique
 > - Le mode **local SQLite** est opérationnel et vérifié : typecheck, build, **41 tests automatisés** et parcours navigateur.
 > - Un **carnet d’adresses client** est disponible dans le compte et préremplit le checkout ; les visuels produits de démonstration sont désormais des **photos locales libres de droits** (Unsplash, Pexels), avec crédits.
 > - Les données de démonstration ont été adaptées au **Bénin / XOF** : prix en FCFA, zone de livraison Bénin, réglages boutique, WhatsApp, adresse et textes légaux.
-> - Le lot **mise en production** ajoute les mentions légales dynamiques, les sauvegardes vérifiables, un journal d’audit en lecture seule et un diagnostic `/admin/production`.
+> - Le lot **mise en production** ajoute les sauvegardes vérifiables, un journal d’audit en lecture seule et un diagnostic `/admin/production`.
 > - Le paiement **Mobile Money** est visible mais **volontairement désactivé** : aucun prestataire (FedaPay ou autre) n'est configuré et aucune transaction n'est simulée.
 > - La stack cible demandée (**PostgreSQL + Prisma + Tailwind CSS**) n'est pas encore celle du runtime. La base de travail actuelle est **SQLite + CSS natif**, avec un schéma PostgreSQL/Supabase de préparation dans [`supabase/migrations/`](supabase/migrations). Voir [Écarts avec la stack cible](#écarts-avec-la-stack-cible).
 
@@ -30,11 +30,12 @@ Marché principal : **Bénin**. Devise : **franc CFA (XOF)**. Interface publique
 - [Tests et vérifications](#tests-et-vérifications)
 - [Déploiement local](#déploiement-local)
 - [Publication GitHub et CI](#publication-github-et-ci)
+- [Hébergement Vercel + Render](#hébergement-vercel--render)
 - [Base PostgreSQL / Supabase](#base-postgresql--supabase)
 - [Sécurité](#sécurité)
 - [Limites connues et reste à faire](#limites-connues-et-reste-à-faire)
 - [Structure du dépôt](#structure-du-dépôt)
-- [Données de démonstration et mentions légales](#données-de-démonstration-et-mentions-légales)
+- [Données de démonstration](#données-de-démonstration)
 
 ---
 
@@ -54,7 +55,7 @@ Le catalogue livré est **une démonstration** : références `DEMO-*`, photos d
 - Prix de démonstration convertis en FCFA (ex. hoodie **22 900 FCFA**, sneakers **34 900 FCFA**).
 - Zone de livraison **Bénin** avec deux modes de démonstration : **Cotonou** et **national**.
 - Réglages boutique : nom, adresse, ville, pays, téléphone, WhatsApp, Instagram, Facebook, TikTok.
-- Textes publics et légaux adaptés au Bénin (FCFA, droit béninois, APDP, RCCM/IFU à compléter).
+- Textes publics adaptés au Bénin (FCFA, livraison, contact).
 - Le paiement Mobile Money reste affiché comme **non configuré** tant qu'aucun adaptateur serveur n'est branché.
 
 > Les tarifs de livraison et le catalogue actuels sont des **données de démonstration**. Ils doivent être remplacés par les conditions réelles de la boutique avant mise en ligne.
@@ -74,7 +75,7 @@ Cette section est volontairement explicite : le projet fonctionne, mais il ne fa
 | Migrations versionnées | **Fait** pour SQLite, SQL fourni pour PostgreSQL/Supabase | Les migrations PostgreSQL n'ont pas été exécutées contre un projet réel. |
 | Mobile Money / FedaPay | **Préparé mais non intégré** ; option désactivée, serveur refuse | Aucune transaction réelle ne peut être créée. |
 | Paiement à la livraison | **Fait** | COD actif. |
-| PDF facture / reçu | **Partiel** : reçu de commande PDF non fiscal | Facture fiscale et numérotation légale non réalisées. |
+| Reçu PDF | **Fait** : reçu de commande téléchargeable | Document interne, pas une facture normalisée. |
 | Notifications e-mail / WhatsApp | **Non fait** | Aucun fournisseur configuré ; aucun message n'est envoyé automatiquement. |
 | Rôles fins (produits, commandes, commercial) | **Partiel** : `customer`, `staff`, `admin` | Les permissions détaillées par métier restent à ajouter. |
 | Sitemap / robots / JSON-LD | **Fait** : `robots.txt`, `sitemap.xml`, Open Graph et JSON-LD produit | Les données structurées sont générées depuis le catalogue publié. |
@@ -103,24 +104,21 @@ Cette section est volontairement explicite : le projet fonctionne, mais il ne fa
 | Contact | `/contact` |
 | FAQ | `/faq` |
 | Livraison et retours | `/livraison` |
-| CGV | `/cgv` |
-| Confidentialité | `/confidentialite` |
-| Mentions légales | `/mentions-legales` |
 
 ### Administration (`/admin`)
 
 - Tableau de bord : chiffre d'affaires sur commandes non annulées/remboursées, commandes, clients, meilleures ventes, stock bas, derniers messages.
 - Produits : création/édition, description, catégorie, prix FCFA, prix promo et fenêtre de promotion, seuil de stock, publication/archivage, images multiples, variantes taille/couleur/stock, historique des mouvements de stock.
 - Catégories : contenu, image, ordre d'affichage, publication.
-- Commandes : liste filtrable, détail, coordonnées, articles, historique, transitions de statut contrôlées, note interne, téléchargement du reçu PDF non fiscal.
+- Commandes : liste filtrable, détail, coordonnées, articles, historique, transitions de statut contrôlées, note interne, téléchargement du reçu PDF.
 - Promotions : codes pourcentage ou montant fixe, minimum d'achat, dates, limites d'utilisation.
 - Livraison : zones par pays, méthodes, prix, seuil de gratuité, délais.
-- Réglages : accueil, bandeau, seuil de livraison offerte, contacts, WhatsApp, réseaux, adresse, mention de démonstration, identité légale (RCCM, IFU, forme juridique, éditeur, hébergeur) et date de dernière mise à jour légale.
+- Réglages : accueil, bandeau, seuil de livraison offerte, contacts, WhatsApp, réseaux, adresse et mention de démonstration.
 - Messages : boîte de contact, marquage lu/archivé.
 - Utilisateurs : rôles client/staff/admin, activation/désactivation.
 - Rapports : export CSV des commandes filtrées (statut, recherche) et rapport PDF de synthèse.
 - Journal d’audit : connexions staff/admin, changements de mot de passe, modifications sensibles ; accès en lecture seule réservé à la permission `audit:read`.
-- Diagnostic de production : checklist des données légales, sauvegardes, HTTPS, médias et configuration avant mise en ligne.
+- Diagnostic de production : checklist des sauvegardes, HTTPS, médias et configuration avant mise en ligne.
 
 ---
 
@@ -289,7 +287,7 @@ Sauvegarde : `npm run backup` crée un lot cohérent avec `VACUUM INTO` (même s
    ```
 
 3. Se connecter via `/connexion`, puis ouvrir `/admin`.
-4. Renseigner l’identité légale et l’hébergeur dans **Paramètres**, puis contrôler les points bloquants dans **Mise en production** (`/admin/production`).
+4. Contrôler les points bloquants dans **Mise en production** (`/admin/production`).
 5. Consulter **Journal d’audit** (`/admin/audit`) pour les connexions staff/admin et les modifications sensibles. Le journal est en lecture seule.
 
 Il n'existe **aucune route HTTP de bootstrap administrateur** : l'élévation de rôle passe uniquement par le script exécuté avec accès direct à la base. La promotion révoque les sessions existantes du compte concerné.
@@ -325,7 +323,7 @@ Les tests utilisent une base SQLite **en mémoire**, initialisée et peuplée pa
 - accès protégé au journal d’audit et au diagnostic de production ;
 - génération de `robots.txt` et du `sitemap.xml` sans exposer `/admin`.
 
-Vérifications navigateur effectuées sur le serveur de développement : accueil, boutique, fiche produit, ajout au panier, checkout COD, confirmation, suivi, compte, favoris, contact, messages admin, tableau de bord et pages d'administration. Les pages légales, le diagnostic de production et le journal d’audit doivent encore être contrôlés après saisie des informations réelles de l’entreprise.
+Vérifications navigateur effectuées sur le serveur de développement : accueil, boutique, fiche produit, ajout au panier, checkout COD, confirmation, suivi, compte, favoris, contact, messages admin, tableau de bord et pages d'administration. Le diagnostic de production et le journal d’audit ont également été contrôlés.
 
 ---
 
@@ -399,7 +397,7 @@ Le workflow [`.github/workflows/ci.yml`](.github/workflows/ci.yml) s'exécute à
 3. le build de production (`npm run build`) ;
 4. la présence des fichiers produits attendus (serveur, migration `007`, frontend, visuel d'accueil).
 
-Ce workflow **vérifie et construit** le projet ; il ne déploie pas encore l'application sur un hébergeur public. Un déploiement en ligne nécessite une cible (VPS, conteneur, plateforme) et des secrets d'accès à configurer séparément.
+Ce workflow **vérifie et construit** le projet. La publication en ligne est décrite dans la section suivante.
 
 Pour publier une version locale :
 
@@ -409,6 +407,30 @@ git push -u origin main
 ```
 
 Ne jamais versionner `server/.env`, `server/data/`, `server/uploads/`, `server/backups/`, `node_modules/` ou `web/dist/`. Ces chemins sont couverts par [`.gitignore`](.gitignore).
+
+---
+
+## Hébergement Vercel + Render
+
+Configuration prête pour :
+
+- **Vercel** : frontend React compilé, avec redirection de `/api/*` et `/uploads/*` vers le backend ;
+- **Render** : API Express, base SQLite et images sur un disque persistant.
+
+Fichiers concernés :
+
+- [`vercel.json`](vercel.json) : build du frontend et proxy vers `BACKEND_URL` ;
+- [`render.yaml`](render.yaml) : service API, disque `/var/data` et variables d’environnement ;
+- [`docs/DEPLOY_VERCEL_RENDER.md`](docs/DEPLOY_VERCEL_RENDER.md) : procédure complète, initialisation, vérifications et limites.
+
+Variables à définir :
+
+| Plateforme | Variable | Valeur |
+| --- | --- | --- |
+| Vercel | `BACKEND_URL` | URL publique Render, sans slash final |
+| Render | `APP_URL` | URL publique Vercel, sans slash final |
+
+Le proxy Vercel conserve le même domaine dans le navigateur : les cookies de session et le contrôle CSRF continuent de fonctionner sans configuration CORS supplémentaire.
 
 ---
 
@@ -478,7 +500,7 @@ Pour rendre ce mode réellement exploitable, il reste à choisir entre Prisma et
 - Limitation de débit en mémoire sur les routes sensibles (connexion, inscription, contact, etc.). **Non partagée entre plusieurs instances.**
 - RBAC en base : rôles `customer`, `staff`, `admin` et permissions (`catalog:*`, `orders:*`, `audit:read`, etc.), vérifiées côté serveur.
 - Journal d’audit en lecture seule : connexions staff/admin, changements de mot de passe et modifications sensibles, consultable uniquement avec `audit:read`.
-- Diagnostic de production : `/api/admin/readiness` et page `/admin/production` signalent les données légales manquantes, l’absence de sauvegarde récente et les configurations à corriger.
+- Diagnostic de production : `/api/admin/readiness` et page `/admin/production` signalent une sauvegarde récente absente et les configurations à corriger.
 - Prix, promotions, frais de port et stocks **recalculés côté serveur** ; un prix envoyé par le navigateur n'est jamais accepté.
 - Stock décrémenté dans la transaction de création de commande, avec verrouillage/conditions ; restitution unique en cas d'annulation.
 - Lignes de commande figées (nom, référence, taille, couleur, prix unitaire, quantité) même si le catalogue change ensuite.
@@ -495,7 +517,6 @@ Pour rendre ce mode réellement exploitable, il reste à choisir entre Prisma et
 ### Priorité 1 — avant toute mise en ligne
 
 - **Remplacer les données de démonstration** : produits, prix, photos, stocks, frais et zones de livraison. Les photos actuelles sont des illustrations libres de droits, pas les articles réels.
-- **Compléter les pages légales** : RCCM, IFU, adresse, téléphone, e-mail, éditeur, hébergeur et autorité de réclamation. Les pages CGV, confidentialité et mentions légales lisent les paramètres de l’administration et affichent explicitement `[À COMPLÉTER]` tant qu’un champ manque. Elles doivent être relues par un professionnel du droit béninois.
 - **Configurer un vrai moyen de contact** : l'adresse `contact@hpcollection.example` est fictive.
 - **Sauvegarder** la base SQLite et les uploads avant toute migration ou réinitialisation. `npm run backup` et `npm run backup:verify` sont disponibles, mais leur planification reste à configurer sur le serveur.
 - **Double authentification administrateur (2FA)** : non implémentée. Les sessions admin sont plus courtes, mais un mot de passe compromis suffit encore à ouvrir l’administration.
@@ -503,7 +524,7 @@ Pour rendre ce mode réellement exploitable, il reste à choisir entre Prisma et
 ### Priorité 2 — fonctionnalités demandées non terminées
 
 - **Mobile Money / FedaPay** : créer la transaction côté serveur, vérifier les montants, vérifier la signature des webhooks, garantir l'idempotence, mettre à jour le statut uniquement après confirmation fiable. Ne jamais déduire un paiement réussi du simple retour sur une page.
-- **PDF facture / reçu** : un **reçu de commande PDF non fiscal** est disponible depuis le compte client et l'administration (`/api/orders/:id/receipt.pdf`, `/api/admin/orders/:id/receipt.pdf`). Il reprend les instantanés de commande et les coordonnées configurées. Une **facture fiscale** avec numérotation légale reste à concevoir avec un professionnel compétent ; ne pas présenter le reçu comme une facture normalisée.
+- **Reçu PDF** : un **reçu de commande PDF** est disponible depuis le compte client et l'administration (`/api/orders/:id/receipt.pdf`, `/api/admin/orders/:id/receipt.pdf`). Il reprend les instantanés de commande et les coordonnées configurées. Il ne remplace pas une facture normalisée.
 - **Mouvements de stock** : historique immuable des ventes, annulations, stocks initiaux et ajustements manuels, affiché dans la fiche produit. Les réservations/livraisons et un écran de réassort dédié restent à ajouter.
 - **Rapports** : export CSV des commandes disponible depuis `/admin/commandes` (filtres statut/recherche, UTF-8, séparateur `;`) et endpoint `/api/admin/reports/orders.csv`. Un **rapport PDF de synthèse** est disponible via `/api/admin/reports/sales.pdf` (CA, commandes, panier moyen, répartition des statuts, meilleures ventes). Les ventes par catégorie, les rapports datés et les exports planifiés restent à ajouter.
 - **Rôles fins** : gestionnaire produits, gestionnaire commandes, responsable commercial, avec permissions serveur.
@@ -525,7 +546,7 @@ Pour rendre ce mode réellement exploitable, il reste à choisir entre Prisma et
 - **SQLite et limitation de débit en mémoire** : adaptés à une boutique à trafic modéré sur une instance unique, pas à un cluster.
 - **Pas de CSP** : les en-têtes de sécurité de base sont présents, mais aucune Content-Security-Policy n'est configurée.
 - **Accessibilité** : structure sémantique, focus visibles, contrastes et libellés ARIA ont été travaillés, mais aucun audit formel RGAA/WCAG n'a été réalisé.
-- **Recette visuelle** : les parcours publics et plusieurs pages admin ont été contrôlés dans le navigateur. Les pages légales, le diagnostic de production et le journal d’audit nécessitent une dernière recette après saisie des informations réelles.
+- **Recette visuelle** : les parcours publics et plusieurs pages admin ont été contrôlés dans le navigateur. Le diagnostic de production et le journal d’audit ont également été vérifiés.
 
 ---
 
@@ -562,7 +583,10 @@ Pour rendre ce mode réellement exploitable, il reste à choisir entre Prisma et
 │  └─ src/styles/main.css             # design system
 ├─ supabase/migrations/               # schéma PostgreSQL, RLS, RPC
 ├─ docs/PRODUCTION.md                 # checklist, sauvegardes, restauration, Nginx
+├─ docs/DEPLOY_VERCEL_RENDER.md       # frontend Vercel + API Render
 ├─ .github/workflows/ci.yml           # typecheck, tests et build sur GitHub
+├─ render.yaml                        # service API Render + disque persistant
+├─ vercel.json                        # build frontend + proxy API
 ├─ .editorconfig
 ├─ .env.example
 ├─ .gitattributes
@@ -573,15 +597,13 @@ Pour rendre ce mode réellement exploitable, il reste à choisir entre Prisma et
 
 ---
 
-## Données de démonstration et mentions légales
+## Données de démonstration
 
 - Les produits, prix et descriptions fournis par le seed sont **fictifs** et marqués `DEMO-*`. Ils ne doivent pas être présentés comme des produits réels.
 - Aucun avis client, label, certification ou partenariat n'est inventé.
 - Les photos sont des **illustrations libres de droits** téléchargées depuis Unsplash et Pexels, stockées localement. Elles ne représentent pas les articles réels HP COLLECTION. Les sources et licences sont documentées dans [`web/public/media/CREDITS.md`](web/public/media/CREDITS.md).
 - Le code promotionnel de démonstration est `BIENVENUE10`.
 - Les tarifs de livraison de démonstration (Cotonou / national) doivent être confirmés par la boutique.
-- Les mentions de livraison, retours et paiement doivent être adaptées aux conditions réelles de la boutique.
-- Les pages CGV, confidentialité et mentions légales sont des bases de travail à faire valider juridiquement. Elles reprennent les champs saisis dans l’administration et affichent `[À COMPLÉTER]` pour toute information manquante ; aucune donnée d’entreprise n’est inventée.
 
 ---
 
