@@ -6,6 +6,11 @@ Architecture retenue :
 - **Render** exécute l’API Express et conserve la base SQLite et les images sur un **disque persistant**.
 - Le navigateur reste sur le domaine Vercel : cookies de session, CSRF et uploads fonctionnent sans CORS supplémentaire.
 
+Liens directs :
+
+- Render : <https://render.com/deploy?repo=https://github.com/gratias123/HP-shopping>
+- Vercel : <https://vercel.com/new>
+
 ## 1. Créer le service Render
 
 1. Pousser le dépôt sur GitHub.
