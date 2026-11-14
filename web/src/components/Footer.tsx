@@ -1,21 +1,16 @@
 import { Link } from 'react-router-dom';
+import { useCategoryTree } from '../lib/categories';
 import { useSite } from '../lib/site';
 import { formatPrice } from '../lib/format';
-
-const CATEGORY_LINKS = [
-  { label: 'Ensembles & survêtements', slug: 'ensembles-jogging' },
-  { label: 'Sneakers lifestyle', slug: 'sneakers' },
-  { label: 'Basketball', slug: 'basketball' },
-  { label: 'T-shirts & polos', slug: 'tshirts' },
-  { label: 'Jeans & pantalons', slug: 'jeans-pantalons' },
-  { label: 'Sweats & hoodies', slug: 'sweats-hoodies' },
-  { label: 'Vestes & varsity', slug: 'vestes-streetwear' },
-  { label: 'Accessoires', slug: 'accessoires' },
-];
 
 export function Footer() {
   const { settings, store } = useSite();
   const year = new Date().getFullYear();
+  const tree = useCategoryTree();
+  const links = [
+    ...tree.groups.map((group) => ({ label: group.category.name, slug: group.category.slug })),
+    ...tree.standalone.map((entry) => ({ label: entry.name, slug: entry.slug })),
+  ];
 
   return (
     <footer className="site-footer">
@@ -61,7 +56,7 @@ export function Footer() {
 
         <nav className="site-footer__col" aria-label="Catégories">
           <h2>Boutique</h2>
-          {CATEGORY_LINKS.map((category) => (
+          {links.map((category) => (
             <Link key={category.slug} to={`/categories/${category.slug}`}>
               {category.label}
             </Link>

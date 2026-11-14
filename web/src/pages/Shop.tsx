@@ -4,10 +4,13 @@ import { ProductGrid } from '../components/ProductCard';
 import { Icon } from '../components/Icon';
 import { Breadcrumbs, EmptyState, ErrorState, Pagination, Seo, SkeletonGrid } from '../components/ui';
 import { queryString } from '../lib/api';
+import { useCategoryTree } from '../lib/categories';
 import { formatPrice } from '../lib/format';
 import { useDebouncedValue, useApi } from '../lib/hooks';
 import { useSite } from '../lib/site';
-import type { Category, Facets, ProductsResponse } from '../lib/types';
+import type { CollectionSummary, Facets, ProductsResponse } from '../lib/types';
+
+const GENDER_LABELS: Record<string, string> = { homme: 'Homme', femme: 'Femme', mixte: 'Mixte' };
 
 const SORT_OPTIONS = [
   { value: 'newest', label: 'Nouveautés' },
@@ -24,6 +27,8 @@ export function ShopPage() {
 
   const q = params.get('q') ?? '';
   const category = params.get('category') ?? '';
+  const gender = ['homme', 'femme', 'mixte'].includes(params.get('gender') ?? '') ? (params.get('gender') as string) : '';
+  const collection = params.get('collection') ?? '';
   const sizes = params.get('sizes')?.split(',').filter(Boolean) ?? [];
   const colors = params.get('colors')?.split(',').filter(Boolean) ?? [];
   const onSale = params.get('onSale') === 'true';
@@ -53,6 +58,8 @@ export function ShopPage() {
   const productsPath = `/api/products${queryString({
     q,
     category,
+    gender: gender || undefined,
+    collection: collection || undefined,
     sizes,
     colors,
     onSale: onSale || undefined,
@@ -65,7 +72,8 @@ export function ShopPage() {
   })}`;
   const products = useApi<ProductsResponse>(productsPath);
   const facets = useApi<Facets>('/api/facets');
-  const categories = useApi<{ categories: Category[] }>('/api/categories');
+  const tree = useCategoryTree();
+  const collections = useApi<{ collections: CollectionSummary[] }>('/api/collections');
 
   const update = (key: string, value: string | null, resetPage = true) => {
     const next = new URLSearchParams(params);
@@ -104,8 +112,10 @@ export function ShopPage() {
   const activeFilters = [
     ...(q ? [{ key: 'q', label: `« ${q} »` }] : []),
     ...(category
-      ? [{ key: 'category', label: categories.data?.categories.find((entry) => entry.slug === category)?.name ?? category }]
+      ? [{ key: 'category', label: tree.all.find((entry) => entry.slug === category)?.name ?? category }]
       : []),
+    ...(gender ? [{ key: 'gender', label: GENDER_LABELS[gender] ?? gender }] : []),
+    ...(collection ? [{ key: 'collection', label: `Collection ${collection}` }] : []),
     ...sizes.map((size) => ({ key: `size:${size}`, label: `Taille ${size}` })),
     ...colors.map((color) => ({ key: `color:${color}`, label: color })),
     ...(onSale ? [{ key: 'onSale', label: 'En promotion' }] : []),
@@ -174,20 +184,75 @@ export function ShopPage() {
                     Toutes les catégories
                   </button>
                 </li>
-                {categories.data?.categories.map((entry) => (
-                  <li key={entry.id}>
-                    <button
-                      type="button"
-                      className={category === entry.slug ? 'is-active' : ''}
-                      onClick={() => update('category', entry.slug)}
-                    >
-                      {entry.name}
-                      <span>{entry.productCount}</span>
-                    </button>
-                  </li>
-                ))}
+                {[...tree.groups.map((group) => ({ entry: group.category, children: group.children })), ...tree.standalone.map((entry) => ({ entry, children: [] as typeof tree.standalone }))].map(
+                  ({ entry, children }) => (
+                    <li key={entry.id}>
+                      <button
+                        type="button"
+                        className={category === entry.slug ? 'is-active' : ''}
+                        onClick={() => update('category', entry.slug)}
+                      >
+                        {entry.name}
+                        <span>{entry.productCount}</span>
+                      </button>
+                      {children.length > 0 ? (
+                        <ul className="filter-list filter-list--nested">
+                          {children.map((child) => (
+                            <li key={child.id}>
+                              <button
+                                type="button"
+                                className={category === child.slug ? 'is-active' : ''}
+                                onClick={() => update('category', child.slug)}
+                              >
+                                {child.name}
+                                <span>{child.productCount}</span>
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : null}
+                    </li>
+                  ),
+                )}
               </ul>
             </div>
+
+            <div className="filter-group">
+              <h3>Public</h3>
+              <div className="filter-chips">
+                {(['homme', 'femme', 'mixte'] as const).map((value) => (
+                  <button
+                    key={value}
+                    type="button"
+                    className={gender === value ? 'is-active' : ''}
+                    aria-pressed={gender === value}
+                    onClick={() => update('gender', gender === value ? null : value)}
+                  >
+                    {GENDER_LABELS[value]}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {collections.data?.collections.length ? (
+              <div className="filter-group">
+                <h3>Collections</h3>
+                <ul className="filter-list">
+                  {collections.data.collections.map((entry) => (
+                    <li key={entry.name}>
+                      <button
+                        type="button"
+                        className={collection.toLowerCase() === entry.name.toLowerCase() ? 'is-active' : ''}
+                        onClick={() => update('collection', collection.toLowerCase() === entry.name.toLowerCase() ? null : entry.name)}
+                      >
+                        {entry.name}
+                        <span>{entry.productCount}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
 
             <div className="filter-group">
               <h3>Tailles</h3>

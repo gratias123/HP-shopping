@@ -48,7 +48,7 @@ export const DEFAULT_SETTINGS: SiteSettings = {
     'Streetwear, sneakers et accessoires sélectionnés pour composer un style qui vous ressemble. Des pièces actuelles, des matières pensées pour le quotidien.',
   heroCtaLabel: 'Découvrir la boutique',
   heroCtaHref: '/boutique',
-  heroImageUrl: '/media/hero-editorial.jpg',
+  heroImageUrl: '/media/hero-hp-collection.jpg',
   announcement: '',
   contactEmail: 'contact@hpcollection.example',
   contactPhone: '',

@@ -1,25 +1,25 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/auth';
+import { useCategoryTree } from '../lib/categories';
 import { useCart } from '../lib/cart';
 import { useFavorites } from '../lib/favorites';
 import { useSite } from '../lib/site';
 import { Icon } from './Icon';
 import { NotificationBell } from './NotificationBell';
 
-const NAV = [
+const NAV_START = [
   { label: 'Boutique', to: '/boutique' },
   { label: 'Nouveautés', to: '/boutique?sort=newest' },
-  { label: 'Sneakers', to: '/categories/sneakers' },
-  { label: 'Accessoires', to: '/categories/accessoires' },
-  { label: 'Suivi', to: '/suivi' },
 ];
+const NAV_END = [{ label: 'Suivi', to: '/suivi' }];
 
 export function Header() {
   const { settings } = useSite();
   const { user } = useAuth();
   const cart = useCart();
   const favorites = useFavorites();
+  const tree = useCategoryTree();
   const navigate = useNavigate();
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -58,6 +58,17 @@ export function Header() {
     setTerm('');
   };
 
+  const renderDesktopLink = (item: { label: string; to: string }) =>
+    item.to.includes('?') ? (
+      <Link key={item.label} to={item.to} className="site-nav__link">
+        {item.label}
+      </Link>
+    ) : (
+      <NavLink key={item.label} to={item.to} className={({ isActive }) => `site-nav__link${isActive ? ' is-active' : ''}`}>
+        {item.label}
+      </NavLink>
+    );
+
   return (
     <>
       {settings.announcement ? (
@@ -84,21 +95,33 @@ export function Header() {
           </Link>
 
           <nav className="site-nav" aria-label="Navigation principale">
-            {NAV.map((item) =>
-              item.to.includes('?') ? (
-                <Link key={item.label} to={item.to} className="site-nav__link">
-                  {item.label}
-                </Link>
-              ) : (
+            {NAV_START.map((item) => renderDesktopLink(item))}
+            {tree.groups.map((group) => (
+              <div key={group.category.id} className="site-nav__group">
                 <NavLink
-                  key={item.label}
-                  to={item.to}
+                  to={`/categories/${group.category.slug}`}
                   className={({ isActive }) => `site-nav__link${isActive ? ' is-active' : ''}`}
                 >
-                  {item.label}
+                  {group.category.name}
                 </NavLink>
-              ),
-            )}
+                {group.children.length > 0 ? (
+                  <div className="site-nav__drop">
+                    <ul>
+                      {group.children.map((child) => (
+                        <li key={child.id}>
+                          <Link to={`/categories/${child.slug}`}>{child.name}</Link>
+                        </li>
+                      ))}
+                    </ul>
+                    <Link to={`/categories/${group.category.slug}`} className="site-nav__all">
+                      Tout voir
+                    </Link>
+                  </div>
+                ) : null}
+              </div>
+            ))}
+            {tree.standalone.map((entry) => renderDesktopLink({ label: entry.name, to: `/categories/${entry.slug}` }))}
+            {NAV_END.map((item) => renderDesktopLink(item))}
           </nav>
 
           <div className="site-header__actions">
@@ -170,7 +193,37 @@ export function Header() {
             </button>
           </div>
           <nav aria-label="Navigation mobile">
-            {NAV.map((item) => (
+            {NAV_START.map((item) => (
+              <Link key={item.label} to={item.to} className="mobile-menu__link">
+                {item.label}
+                <Icon name="arrow-right" size={18} />
+              </Link>
+            ))}
+            {tree.groups.map((group) => (
+              <details key={group.category.id} className="mobile-menu__group">
+                <summary className="mobile-menu__link">
+                  {group.category.name}
+                  <Icon name="arrow-right" size={18} />
+                </summary>
+                <ul>
+                  <li>
+                    <Link to={`/categories/${group.category.slug}`}>Tout voir</Link>
+                  </li>
+                  {group.children.map((child) => (
+                    <li key={child.id}>
+                      <Link to={`/categories/${child.slug}`}>{child.name}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            ))}
+            {tree.standalone.map((entry) => (
+              <Link key={entry.id} to={`/categories/${entry.slug}`} className="mobile-menu__link">
+                {entry.name}
+                <Icon name="arrow-right" size={18} />
+              </Link>
+            ))}
+            {NAV_END.map((item) => (
               <Link key={item.label} to={item.to} className="mobile-menu__link">
                 {item.label}
                 <Icon name="arrow-right" size={18} />

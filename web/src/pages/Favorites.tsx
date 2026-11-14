@@ -17,6 +17,8 @@ export function FavoritesPage() {
     shortDescription: '',
     status: 'published',
     isFeatured: false,
+    gender: 'mixte' as const,
+    collection: null,
     createdAt: '',
     sizes: [],
     colors: [],

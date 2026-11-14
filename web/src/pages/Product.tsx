@@ -168,6 +168,17 @@ export function ProductPage() {
             <p className="eyebrow">{product.category.name}</p>
             <h1>{product.name}</h1>
             <p className="product__ref">Réf. {product.reference}</p>
+            <ul className="product__facts" aria-label="Caractéristiques">
+              <li>{product.gender === 'homme' ? 'Homme' : product.gender === 'femme' ? 'Femme' : 'Mixte'}</li>
+              {product.collection ? (
+                <li>
+                  <Link to={`/boutique?collection=${encodeURIComponent(product.collection)}`}>Collection {product.collection}</Link>
+                </li>
+              ) : null}
+              <li className={product.stockTotal > 0 ? 'is-in' : 'is-out'}>
+                {product.stockTotal > 0 ? 'Disponible' : 'Indisponible pour le moment'}
+              </li>
+            </ul>
             <Price priceCents={product.effectivePriceCents} compareAtCents={product.compareAtCents} currency={store.currency} size="lg" />
             {product.onSale && product.saleEndsAt ? (
               <p className="product__promo-note">Prix promotionnel jusqu’au {new Date(product.saleEndsAt).toLocaleDateString('fr-FR')}.</p>

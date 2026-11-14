@@ -1,13 +1,6 @@
 import { Router } from 'express';
 import { publicStoreConfig, getSettings } from '../services/settings.js';
-import {
-  getCategoryBySlug,
-  getProductBySlug,
-  homePayload,
-  listCategories,
-  listFacets,
-  listProducts,
-} from '../services/catalog.js';
+import { getCategoryBySlug, getProductBySlug, homePayload, listCategories, listFacets, listProducts, listCollections } from '../services/catalog.js';
 import { ApiError } from '../lib/errors.js';
 import { parseBoolean, parseInteger, parseList } from '../lib/http.js';
 import { listShippingOptions, listActiveCountries } from '../services/shipping.js';
@@ -29,6 +22,8 @@ catalogRouter.get('/products', (req, res) => {
   const result = listProducts({
     q: typeof req.query.q === 'string' ? req.query.q.trim().slice(0, 120) : undefined,
     category: typeof req.query.category === 'string' ? req.query.category : undefined,
+    gender: ['homme', 'femme', 'mixte'].includes(String(req.query.gender)) ? (String(req.query.gender) as 'homme' | 'femme' | 'mixte') : undefined,
+    collection: typeof req.query.collection === 'string' && req.query.collection.trim() ? req.query.collection.trim().slice(0, 80) : undefined,
     sizes: parseList(req.query.sizes),
     colors: parseList(req.query.colors),
     minPriceCents: parseInteger(req.query.minPrice),
@@ -40,6 +35,10 @@ catalogRouter.get('/products', (req, res) => {
     perPage: parseInteger(req.query.perPage) ?? 12,
   });
   res.json(result);
+});
+
+catalogRouter.get('/collections', (_req, res) => {
+  res.json({ collections: listCollections() });
 });
 
 catalogRouter.get('/products/:slug', (req, res) => {

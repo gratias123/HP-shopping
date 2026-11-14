@@ -145,8 +145,8 @@ adminCatalogRouter.post('/products', requirePermission('catalog:write'), (req, r
     const now = nowIso();
     db.prepare(
       `INSERT INTO products (id, reference, slug, name, short_description, description, composition, care, category_id,
-        price_cents, sale_price_cents, sale_starts_at, sale_ends_at, status, is_featured, low_stock_alert, created_at, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        price_cents, sale_price_cents, sale_starts_at, sale_ends_at, status, is_featured, gender, collection, low_stock_alert, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     ).run(
       id,
       reference,
@@ -163,6 +163,8 @@ adminCatalogRouter.post('/products', requirePermission('catalog:write'), (req, r
       input.saleEndsAt ?? null,
       input.status,
       input.isFeatured ? 1 : 0,
+      input.gender,
+      input.collection || null,
       input.lowStockAlert ?? null,
       now,
       now,
@@ -202,7 +204,7 @@ adminCatalogRouter.put('/products/:id', requirePermission('catalog:write'), (req
     db.prepare(
       `UPDATE products SET reference = ?, slug = ?, name = ?, short_description = ?, description = ?, composition = ?,
         care = ?, category_id = ?, price_cents = ?, sale_price_cents = ?, sale_starts_at = ?, sale_ends_at = ?,
-        status = ?, is_featured = ?, low_stock_alert = ?, updated_at = ? WHERE id = ?`,
+        status = ?, is_featured = ?, gender = ?, collection = ?, low_stock_alert = ?, updated_at = ? WHERE id = ?`,
     ).run(
       reference,
       slug,
@@ -218,6 +220,8 @@ adminCatalogRouter.put('/products/:id', requirePermission('catalog:write'), (req
       input.saleEndsAt ?? null,
       input.status,
       input.isFeatured ? 1 : 0,
+      input.gender,
+      input.collection || null,
       input.lowStockAlert ?? null,
       nowIso(),
       id,

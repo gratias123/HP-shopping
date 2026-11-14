@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Icon } from '../../components/Icon';
 import { ErrorState, Seo, Spinner } from '../../components/ui';
@@ -6,7 +6,7 @@ import { api, ApiError, uploadImage } from '../../lib/api';
 import { useApi } from '../../lib/hooks';
 import { useToast } from '../../lib/toast';
 import { StockHistory } from './StockHistory';
-import type { Category, ProductDetail } from '../../lib/types';
+import type { Category, CollectionSummary, ProductDetail } from '../../lib/types';
 
 interface VariantRow {
   key: string;
@@ -40,6 +40,8 @@ interface FormState {
   saleEnds: string;
   status: 'draft' | 'published' | 'archived';
   isFeatured: boolean;
+  gender: 'homme' | 'femme' | 'mixte';
+  collection: string;
   lowStockAlert: string;
   images: ImageRow[];
   variants: VariantRow[];
@@ -60,6 +62,8 @@ const EMPTY: FormState = {
   saleEnds: '',
   status: 'draft',
   isFeatured: false,
+  gender: 'mixte',
+  collection: '',
   lowStockAlert: '',
   images: [],
   variants: [{ key: crypto.randomUUID(), sku: '', size: '', color: 'Noir', colorHex: '#171717', stock: 0, isActive: true }],
@@ -92,6 +96,14 @@ export function AdminProductFormPage() {
   const navigate = useNavigate();
   const toast = useToast();
   const categories = useApi<{ categories: Category[] }>('/api/admin/categories');
+  const collections = useApi<{ collections: CollectionSummary[] }>('/api/collections');
+  const categoryOptions = useMemo(() => {
+    const list = categories.data?.categories ?? [];
+    const sorted = [...list].sort((a, b) => a.sortOrder - b.sortOrder || a.name.localeCompare(b.name, 'fr'));
+    return sorted
+      .filter((entry) => !entry.parentId)
+      .map((parent) => ({ parent, children: sorted.filter((entry) => entry.parentId === parent.id) }));
+  }, [categories.data]);
   const product = useApi<{ product: ProductDetail }>(id ? `/api/admin/products/${id}` : null);
   const [form, setForm] = useState<FormState>(EMPTY);
   const [error, setError] = useState<string | null>(null);
@@ -121,6 +133,8 @@ export function AdminProductFormPage() {
       saleEnds: toLocalInput(source.saleEndsAtRaw),
       status: source.status as FormState['status'],
       isFeatured: source.isFeatured,
+      gender: source.gender ?? 'mixte',
+      collection: source.collection ?? '',
       lowStockAlert: source.lowStockAlert !== null ? String(source.lowStockAlert) : '',
       images: source.images.map((image) => ({ key: image.id ?? crypto.randomUUID(), url: image.url, alt: image.alt })),
       variants: source.variants.map((variant) => ({
@@ -246,6 +260,8 @@ export function AdminProductFormPage() {
       saleEndsAt: toIso(form.saleEnds) ?? '',
       status: form.status,
       isFeatured: form.isFeatured,
+      gender: form.gender,
+      collection: form.collection.trim(),
       lowStockAlert: form.lowStockAlert.trim() ? Number.parseInt(form.lowStockAlert, 10) : null,
       images: form.images.map((image, index) => ({ url: image.url, alt: image.alt, sortOrder: index })),
       variants: form.variants.map((variant) => ({
@@ -347,13 +363,48 @@ export function AdminProductFormPage() {
                 <span>Catégorie *</span>
                 <select value={form.categoryId} onChange={(event) => update('categoryId', event.target.value)} required>
                   <option value="">Sélectionner…</option>
-                  {categories.data?.categories.map((category) => (
-                    <option key={category.id} value={category.id}>
-                      {category.name}
-                      {category.published ? '' : ' (non publiée)'}
-                    </option>
-                  ))}
+                  {categoryOptions.map((entry) =>
+                    entry.children.length > 0 ? (
+                      <optgroup key={entry.parent.id} label={entry.parent.name}>
+                        {entry.children.map((child) => (
+                          <option key={child.id} value={child.id}>
+                            {child.name}
+                            {child.published ? '' : ' (non publiée)'}
+                          </option>
+                        ))}
+                      </optgroup>
+                    ) : (
+                      <option key={entry.parent.id} value={entry.parent.id}>
+                        {entry.parent.name}
+                        {entry.parent.published ? '' : ' (non publiée)'}
+                      </option>
+                    ),
+                  )}
                 </select>
+              </label>
+              <label className="field">
+                <span>Public concerné</span>
+                <select value={form.gender} onChange={(event) => update('gender', event.target.value as FormState['gender'])}>
+                  <option value="homme">Homme</option>
+                  <option value="femme">Femme</option>
+                  <option value="mixte">Mixte</option>
+                </select>
+              </label>
+              <label className="field">
+                <span>Collection</span>
+                <input
+                  value={form.collection}
+                  onChange={(event) => update('collection', event.target.value)}
+                  list="collection-suggestions"
+                  maxLength={80}
+                  placeholder="Ex. Essentiels urbains"
+                />
+                <datalist id="collection-suggestions">
+                  {(collections.data?.collections ?? []).map((entry) => (
+                    <option key={entry.name} value={entry.name} />
+                  ))}
+                </datalist>
+                <small>Facultatif. Les articles d’une même collection sont regroupés sur la boutique.</small>
               </label>
               <label className="field field--full">
                 <span>Accroche courte</span>
