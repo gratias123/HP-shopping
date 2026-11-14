@@ -8,6 +8,7 @@ import { categorySchema, productSchema, type ProductInput } from '../../lib/vali
 import { requirePermission } from '../../middleware/auth.js';
 import { getProductById, listCategories, listProducts } from '../../services/catalog.js';
 import { listStockMovements, recordStockMovement } from '../../services/inventory.js';
+import { checkVariantStock } from '../../services/notifications.js';
 import { audit, uniqueSlug } from './helpers.js';
 
 export const adminCatalogRouter = Router();
@@ -88,6 +89,7 @@ function insertVariants(
         note: 'Création du produit',
         actorLabel,
       });
+      checkVariantStock(variantId);
     }
   }
 }
@@ -290,6 +292,7 @@ adminCatalogRouter.put('/products/:id', requirePermission('catalog:write'), (req
             note: 'Modification manuelle depuis la fiche produit',
             actorLabel,
           });
+          checkVariantStock(variant.id);
         }
       } else {
         const variantId = crypto.randomUUID();
@@ -323,6 +326,7 @@ adminCatalogRouter.put('/products/:id', requirePermission('catalog:write'), (req
             note: 'Création de la variante',
             actorLabel,
           });
+          checkVariantStock(variantId);
         }
       }
     }

@@ -5,6 +5,7 @@ import { App } from './App';
 import { AuthProvider } from './lib/auth';
 import { CartProvider } from './lib/cart';
 import { FavoritesProvider } from './lib/favorites';
+import { NotificationsProvider } from './lib/notifications';
 import { SiteProvider } from './lib/site';
 import { ToastProvider } from './lib/toast';
 import './styles/main.css';
@@ -14,13 +15,15 @@ createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
       <SiteProvider>
         <AuthProvider>
-          <FavoritesProvider>
-            <CartProvider>
-              <ToastProvider>
-                <App />
-              </ToastProvider>
-            </CartProvider>
-          </FavoritesProvider>
+          <NotificationsProvider>
+            <FavoritesProvider>
+              <CartProvider>
+                <ToastProvider>
+                  <App />
+                </ToastProvider>
+              </CartProvider>
+            </FavoritesProvider>
+          </NotificationsProvider>
         </AuthProvider>
       </SiteProvider>
     </BrowserRouter>

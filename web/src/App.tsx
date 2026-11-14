@@ -16,6 +16,7 @@ import { HomePage } from './pages/Home';
 import { LegalNoticePage } from './pages/LegalNotice';
 import { LoginPage } from './pages/Login';
 import { NotFoundPage } from './pages/NotFound';
+import { NotificationsPage } from './pages/Notifications';
 import { PrivacyPage } from './pages/Privacy';
 import { ProductPage } from './pages/Product';
 import { RegisterPage } from './pages/Register';
@@ -108,6 +109,14 @@ export function App() {
           element={
             <RequireAuth>
               <AccountOrderPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="notifications"
+          element={
+            <RequireAuth>
+              <NotificationsPage />
             </RequireAuth>
           }
         />

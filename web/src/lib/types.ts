@@ -396,3 +396,16 @@ export interface ReadinessReport {
   checks: ReadinessCheck[];
   generatedAt: string;
 }
+
+export interface AppNotification {
+  id: string;
+  type: string;
+  title: string;
+  body: string;
+  link: string | null;
+  entity: string | null;
+  entityId: string | null;
+  read: boolean;
+  readAt: string | null;
+  createdAt: string;
+}

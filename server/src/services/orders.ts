@@ -2,6 +2,8 @@ import crypto from 'node:crypto';
 import type { DatabaseSync } from 'node:sqlite';
 import { config } from '../config.js';
 import { getDb, queryAll, queryOne, transaction, type SqlPrimitive } from '../db/index.js';
+import { checkVariantStock, notifyOrderCreated, notifyOrderStatusChanged } from './notifications.js';
+import { formatMoney } from '../lib/money.js';
 import { ApiError } from '../lib/errors.js';
 import { newId, nowIso, orderReference } from '../lib/ids.js';
 import { getSettings } from './settings.js';
@@ -360,6 +362,7 @@ export function createOrder(input: CreateOrderInput): OrderDto {
         note: `Commande ${reference}`,
         actorLabel: 'Boutique',
       });
+      checkVariantStock(line.variantId);
       db.prepare(
         `INSERT INTO order_items (
           id, order_id, product_id, variant_id, product_name, product_reference,
@@ -400,6 +403,12 @@ export function createOrder(input: CreateOrderInput): OrderDto {
 
     const created = readOrder(db, orderId);
     if (!created) throw new Error('Commande créée mais introuvable.');
+    notifyOrderCreated({
+      id: orderId,
+      reference,
+      userId: input.userId ?? null,
+      totalLabel: formatMoney(totalCents, config.currency),
+    });
     return created;
   });
 }
@@ -578,7 +587,9 @@ export function updateOrderStatus(
   actor: { id: string | null; label: string },
 ): OrderDto {
   return transaction((db) => {
-    const row = db.prepare('SELECT status FROM orders WHERE id = ?').get(orderId) as { status: OrderStatus } | undefined;
+    const row = db.prepare('SELECT status, reference, user_id FROM orders WHERE id = ?').get(orderId) as
+      | { status: OrderStatus; reference: string; user_id: string | null }
+      | undefined;
     if (!row) throw ApiError.notFound('Commande introuvable.');
     const current = row.status;
     if (current === nextStatus) {
@@ -668,6 +679,8 @@ export function updateOrderStatus(
       JSON.stringify({ from: current, to: nextStatus, note }),
       now,
     );
+
+    notifyOrderStatusChanged({ id: orderId, reference: row.reference, userId: row.user_id }, nextStatus, actor.id);
 
     const updatedRow = db.prepare('SELECT * FROM orders WHERE id = ?').get(orderId) as Record<string, unknown>;
     return hydrate(db, updatedRow, true);

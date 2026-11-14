@@ -14,7 +14,7 @@
     "backup": "tsx src/scripts/backup.ts",
     "backup:verify": "tsx src/scripts/verify-backup.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "node --import tsx --import ./test/setup.mjs --test test/auth.test.ts test/catalog.test.ts test/addresses.test.ts test/orders.test.ts test/admin.test.ts test/seo.test.ts test/backups.test.ts"
+    "test": "node --import tsx --import ./test/setup.mjs --test test/auth.test.ts test/catalog.test.ts test/addresses.test.ts test/orders.test.ts test/admin.test.ts test/seo.test.ts test/backups.test.ts test/notifications.test.ts"
   },
   "dependencies": {
     "dotenv": "^16.4.7",
