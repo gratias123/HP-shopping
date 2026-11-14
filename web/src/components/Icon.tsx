@@ -23,7 +23,8 @@ export type IconName =
   | 'filter'
   | 'pin'
   | 'refresh'
-  | 'history';
+  | 'history'
+  | 'bell';
 
 interface IconProps extends SVGProps<SVGSVGElement> {
   name: IconName;
@@ -145,6 +146,12 @@ const PATHS: Record<IconName, React.ReactNode> = {
       <path d="M4 4v5h5" />
       <path d="M4 13a8 8 0 0 0 14 4.5L20 15" />
       <path d="M20 20v-5h-5" />
+    </>
+  ),
+  bell: (
+    <>
+      <path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15L6 16Z" />
+      <path d="M10 20.5a2 2 0 0 0 4 0" />
     </>
   ),
   history: (

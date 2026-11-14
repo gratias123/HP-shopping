@@ -19,6 +19,7 @@ import { requireAuth } from '../middleware/auth.js';
 import { rateLimit, readSessionToken } from '../middleware/security.js';
 import type { SessionUser } from '../lib/auth.js';
 import { audit } from './admin/helpers.js';
+import { notifyCustomerRegistered } from '../services/notifications.js';
 
 export const authRouter = Router();
 
@@ -58,6 +59,7 @@ authRouter.post(
        VALUES (?, ?, ?, ?, ?, 'customer', 'active', ?, ?)`,
       [id, input.email, await hashPassword(input.password), input.fullName, input.phone ?? '', now, now],
     );
+    notifyCustomerRegistered({ id, fullName: input.fullName, email: input.email });
     const { token, expiresAt } = createSession(getDb(), id, {
       ip: req.ip,
       userAgent: req.headers['user-agent'],

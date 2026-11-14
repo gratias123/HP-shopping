@@ -8,6 +8,7 @@ import { authRouter } from './routes/auth.js';
 import { catalogRouter } from './routes/catalog.js';
 import { contactRouter } from './routes/contact.js';
 import { favoritesRouter } from './routes/favorites.js';
+import { notificationsRouter } from './routes/notifications.js';
 import { ordersRouter } from './routes/orders.js';
 import { seoRouter } from './routes/seo.js';
 import { adminRouter } from './routes/admin/index.js';
@@ -38,6 +39,7 @@ export function createApp(): Express {
   app.use('/api', catalogRouter);
   app.use('/api', ordersRouter);
   app.use('/api/favorites', favoritesRouter);
+  app.use('/api/notifications', notificationsRouter);
   app.use('/api', contactRouter);
 
   // SEO technique, servi avant le fallback SPA.

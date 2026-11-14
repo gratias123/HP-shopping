@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Icon } from '../../components/Icon';
+import { NotificationBell } from '../../components/NotificationBell';
 import { useAuth } from '../../lib/auth';
 import { useSite } from '../../lib/site';
 
@@ -95,6 +96,7 @@ export function AdminLayout() {
             <h1>{current?.label ?? 'Administration'}</h1>
           </div>
           <p className="admin__tagline">{settings.storeTagline}</p>
+          <NotificationBell variant="admin" />
         </header>
         <div className="admin__content">
           <Outlet />

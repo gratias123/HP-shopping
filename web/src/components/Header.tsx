@@ -5,6 +5,7 @@ import { useCart } from '../lib/cart';
 import { useFavorites } from '../lib/favorites';
 import { useSite } from '../lib/site';
 import { Icon } from './Icon';
+import { NotificationBell } from './NotificationBell';
 
 const NAV = [
   { label: 'Boutique', to: '/boutique' },
@@ -110,6 +111,7 @@ export function Header() {
             >
               <Icon name="search" size={20} />
             </button>
+            {user ? <NotificationBell /> : null}
             <Link to={user ? '/compte' : '/connexion'} className="icon-button" aria-label={user ? 'Mon compte' : 'Connexion'}>
               <Icon name="user" size={20} />
             </Link>
@@ -174,6 +176,12 @@ export function Header() {
                 <Icon name="arrow-right" size={18} />
               </Link>
             ))}
+            {user ? (
+              <Link to="/notifications" className="mobile-menu__link">
+                Notifications
+                <Icon name="bell" size={18} />
+              </Link>
+            ) : null}
             <Link to="/favoris" className="mobile-menu__link">
               Favoris
               <Icon name="heart" size={18} />
