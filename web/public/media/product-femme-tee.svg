@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-label="T-SHIRT CROP — ILLUSTRATION — illustration HP COLLECTION">
+  <defs><linearGradient id="b" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F2EEE3"/><stop offset="1" stop-color="#DFD9C8"/></linearGradient></defs>
+  <rect width="800" height="1000" fill="url(#b)"/>
+  <circle cx="400" cy="450" r="230" fill="#C7A747" opacity=".18"/>
+  <text x="48" y="66" font-family="Arial, sans-serif" font-size="12" letter-spacing="5" fill="#777D86">HP COLLECTION</text>
+  <text x="48" y="90" font-family="Arial, sans-serif" font-size="10" letter-spacing="4" fill="#777D86">ILLUSTRATION · PHOTO À VENIR</text>
+  <ellipse cx="400" cy="800" rx="230" ry="22" fill="#171717" opacity=".1"/>
+  <g transform="translate(0 0)"><path d="M270 200 L180 260 L215 330 L275 300 L275 510 Q400 530 525 510 L525 300 L585 330 L620 260 L530 200 Q400 250 270 200Z" fill="#EDE6D4" stroke="#171717" stroke-width="2"/><path d="M330 205 Q400 262 470 205" fill="none" stroke="#171717" stroke-width="4"/><text x="350" y="420" font-family="Arial Black, Arial, sans-serif" font-size="34" font-weight="900" letter-spacing="-2" fill="#171717">HP</text></g>
+  <path d="M48 916H752" stroke="#171717" stroke-opacity=".2"/>
+  <text x="48" y="952" font-family="Arial, sans-serif" font-size="16" letter-spacing="2" fill="#171717">T-SHIRT CROP — ILLUSTRATION</text>
+</svg>
