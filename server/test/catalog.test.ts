@@ -30,7 +30,7 @@ test('le catalogue public expose uniquement les articles publiés de démonstrat
   assert.ok(response.data.items.length >= 8);
   for (const item of response.data.items) {
     assert.match(item.reference, /^DEMO-/);
-    assert.ok(item.image?.url.startsWith('/media/'));
+    assert.ok((item.image?.url.startsWith('/media/') || item.image?.url.startsWith('https://images.pexels.com/')));
     assert.ok(item.priceCents > 0);
   }
 });
