@@ -19,6 +19,7 @@ interface Slide {
   alt: string;
   contain?: boolean;
   caption: string;
+  product?: boolean;
 }
 
 function HeroSlider({ payload, currency }: { payload: HomePayload | null; currency: string }) {
@@ -37,45 +38,27 @@ function HeroSlider({ payload, currency }: { payload: HomePayload | null; curren
       caption: 'Vol. 01',
     },
   ];
-  const femme = payload?.sections.femme[0];
-  if (femme?.image) {
+  const seen = new Set<string>();
+  const picks = [...(payload?.featured ?? []), ...(payload?.newArrivals ?? []), ...(payload?.sale ?? [])].filter((item) => {
+    if (!item.image || seen.has(item.id)) return false;
+    seen.add(item.id);
+    return true;
+  });
+  picks.slice(0, 5).forEach((item) => {
     slides.push({
-      eyebrow: 'Nouveau rayon',
-      title: 'Mode femme',
-      subtitle: 'Ensembles, joggings, vestes et sneakers : la sélection femme est arrivée.',
-      cta: { label: 'Découvrir la mode femme', href: '/boutique?gender=femme' },
-      image: femme.image.url,
-      alt: femme.image.alt,
-      contain: true,
-      caption: 'Femme',
+      eyebrow: item.onSale ? 'Promotion' : item.collection || item.category.name,
+      title: item.name,
+      subtitle: item.shortDescription,
+      cta: { label: 'Choisir et commander', href: `/produit/${item.slug}` },
+      image: item.image!.url,
+      alt: item.image!.alt,
+      contain: false,
+      caption: item.onSale
+        ? `${formatPrice(item.effectivePriceCents, currency)} (au lieu de ${formatPrice(item.priceCents, currency)})`
+        : formatPrice(item.effectivePriceCents, currency),
+      product: true,
     });
-  }
-  const sneaker = payload?.sections.sneakers[0];
-  if (sneaker?.image) {
-    slides.push({
-      eyebrow: 'Sneakers & basketball',
-      title: 'Le pied dans la tenue',
-      subtitle: 'Sneakers basses, basketball et tenues de sport pour compléter le look.',
-      cta: { label: 'Voir les sneakers', href: '/boutique?category=sneakers' },
-      image: sneaker.image.url,
-      alt: sneaker.image.alt,
-      contain: true,
-      caption: 'Sneakers',
-    });
-  }
-  const sale = payload?.sale[0];
-  if (sale?.image) {
-    slides.push({
-      eyebrow: 'Promotions en cours',
-      title: 'Sélection à prix réduit',
-      subtitle: `Jusqu’à ${formatPrice(sale.compareAtCents ?? sale.priceCents, currency)} → ${formatPrice(sale.effectivePriceCents, currency)} sur une sélection d’articles.`,
-      cta: { label: 'Voir les promotions', href: '/boutique?onSale=true' },
-      image: sale.image.url,
-      alt: sale.image.alt,
-      contain: true,
-      caption: 'Promo',
-    });
-  }
+  });
   const count = slides.length;
   useEffect(() => {
     if (paused || count < 2) return;
@@ -119,13 +102,29 @@ function HeroSlider({ payload, currency }: { payload: HomePayload | null; curren
           </ul>
         </div>
         <div className={`hero__media ${slide.contain ? 'hero__media--contain' : ''}`}>
-          <img src={slide.image} alt={slide.alt} width="1000" height="750" />
+          {slide.product ? (
+            <Link to={slide.cta.href} aria-label={`Voir ${slide.title}`} className="hero__media-link">
+              <img src={slide.image} alt={slide.alt} width="1000" height="750" />
+            </Link>
+          ) : (
+            <img src={slide.image} alt={slide.alt} width="1000" height="750" />
+          )}
           <div className="hero__caption">
-            <span>Sélection</span>
+            <span>{slide.product ? 'Prix' : 'Sélection'}</span>
             <strong>{slide.caption}</strong>
           </div>
         </div>
       </section>
+      {count > 1 ? (
+        <div className="hero-nav">
+          <button type="button" className="hero-arrow" aria-label="Diapositive précédente" onClick={() => setIndex((index + count - 1) % count)}>
+            <Icon name="arrow-left" size={18} />
+          </button>
+          <button type="button" className="hero-arrow" aria-label="Diapositive suivante" onClick={() => setIndex((index + 1) % count)}>
+            <Icon name="arrow-right" size={18} />
+          </button>
+        </div>
+      ) : null}
       {count > 1 ? (
         <div className="hero-dots" role="tablist" aria-label="Choisir une diapositive">
           {slides.map((entry, position) => (
