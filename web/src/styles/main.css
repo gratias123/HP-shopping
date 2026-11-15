@@ -5577,3 +5577,8 @@ main:focus {
 .hero-dots button{width:34px;height:4px;border:0;padding:0;background:var(--line,#d8d8d8);cursor:pointer}
 .hero-dots button.is-active{background:var(--ink,#111)}
 @media (prefers-reduced-motion:reduce){.hero-slider .hero{animation:none}}
+
+.hero-nav{display:flex;justify-content:center;gap:12px;margin-top:14px}
+.hero-arrow{width:40px;height:40px;border:1px solid var(--line,#ddd);background:transparent;cursor:pointer;display:grid;place-items:center}
+.hero-arrow:hover{background:var(--ink,#111);color:#fff}
+.hero__media-link{display:block;height:100%}
