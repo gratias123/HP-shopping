@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ProductGrid } from '../components/ProductCard';
 import { Icon } from '../components/Icon';
@@ -7,6 +8,142 @@ import { useSite } from '../lib/site';
 import { formatPrice } from '../lib/format';
 import type { HomePayload } from '../lib/types';
 import { Seo } from '../components/ui';
+
+
+interface Slide {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  cta: { label: string; href: string };
+  image: string;
+  alt: string;
+  contain?: boolean;
+  caption: string;
+}
+
+function HeroSlider({ payload, currency }: { payload: HomePayload | null; currency: string }) {
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const settings = payload?.settings;
+  const slides: Slide[] = [
+    {
+      eyebrow: `HP COLLECTION — ${settings?.storeTagline ?? 'Ton style. Tes règles.'}`,
+      title: settings?.heroTitle ?? 'Le vestiaire urbain, sans compromis.',
+      subtitle:
+        settings?.heroSubtitle ?? 'Streetwear, sneakers et accessoires sélectionnés pour composer un style qui vous ressemble.',
+      cta: { label: settings?.heroCtaLabel || 'Découvrir la collection', href: settings?.heroCtaHref || '/boutique' },
+      image: settings?.heroImageUrl || '/media/hero-hp-collection.jpg',
+      alt: 'Mannequin portant un ensemble rouge HP COLLECTION',
+      caption: 'Vol. 01',
+    },
+  ];
+  const femme = payload?.sections.femme[0];
+  if (femme?.image) {
+    slides.push({
+      eyebrow: 'Nouveau rayon',
+      title: 'Mode femme',
+      subtitle: 'Ensembles, joggings, vestes et sneakers : la sélection femme est arrivée.',
+      cta: { label: 'Découvrir la mode femme', href: '/boutique?gender=femme' },
+      image: femme.image.url,
+      alt: femme.image.alt,
+      contain: true,
+      caption: 'Femme',
+    });
+  }
+  const sneaker = payload?.sections.sneakers[0];
+  if (sneaker?.image) {
+    slides.push({
+      eyebrow: 'Sneakers & basketball',
+      title: 'Le pied dans la tenue',
+      subtitle: 'Sneakers basses, basketball et tenues de sport pour compléter le look.',
+      cta: { label: 'Voir les sneakers', href: '/boutique?category=sneakers' },
+      image: sneaker.image.url,
+      alt: sneaker.image.alt,
+      contain: true,
+      caption: 'Sneakers',
+    });
+  }
+  const sale = payload?.sale[0];
+  if (sale?.image) {
+    slides.push({
+      eyebrow: 'Promotions en cours',
+      title: 'Sélection à prix réduit',
+      subtitle: `Jusqu’à ${formatPrice(sale.compareAtCents ?? sale.priceCents, currency)} → ${formatPrice(sale.effectivePriceCents, currency)} sur une sélection d’articles.`,
+      cta: { label: 'Voir les promotions', href: '/boutique?onSale=true' },
+      image: sale.image.url,
+      alt: sale.image.alt,
+      contain: true,
+      caption: 'Promo',
+    });
+  }
+  const count = slides.length;
+  useEffect(() => {
+    if (paused || count < 2) return;
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+    const timer = window.setInterval(() => setIndex((current) => (current + 1) % count), 6000);
+    return () => window.clearInterval(timer);
+  }, [paused, count]);
+  const slide = slides[index % count];
+
+  return (
+    <div
+      className="hero-slider"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocus={() => setPaused(true)}
+      onBlur={() => setPaused(false)}
+    >
+      <section className="hero" key={index} aria-roledescription="carrousel" aria-label={`Diapositive ${(index % count) + 1} sur ${count}`}>
+        <div className="hero__copy">
+          <p className="eyebrow">{slide.eyebrow}</p>
+          <h1>{slide.title}</h1>
+          <p className="hero__subtitle">{slide.subtitle}</p>
+          <div className="hero__actions">
+            <Link to={slide.cta.href} className="btn btn--primary">
+              {slide.cta.label}
+              <Icon name="arrow-right" size={18} />
+            </Link>
+            <Link to="/boutique" className="btn btn--text">
+              Toute la boutique
+            </Link>
+          </div>
+          <ul className="hero__facts">
+            <li>
+              <Icon name="truck" size={18} />
+              Livraison offerte dès {formatPrice(settings?.freeShippingThresholdCents ?? 5_000_000, currency)}
+            </li>
+            <li>
+              <Icon name="shield" size={18} />
+              Paiement à la réception disponible
+            </li>
+          </ul>
+        </div>
+        <div className={`hero__media ${slide.contain ? 'hero__media--contain' : ''}`}>
+          <img src={slide.image} alt={slide.alt} width="1000" height="750" />
+          <div className="hero__caption">
+            <span>Sélection</span>
+            <strong>{slide.caption}</strong>
+          </div>
+        </div>
+      </section>
+      {count > 1 ? (
+        <div className="hero-dots" role="tablist" aria-label="Choisir une diapositive">
+          {slides.map((entry, position) => (
+            <button
+              key={entry.title}
+              type="button"
+              role="tab"
+              aria-selected={position === index % count}
+              aria-label={`Diapositive ${position + 1} : ${entry.title}`}
+              className={position === index % count ? 'is-active' : ''}
+              onClick={() => setIndex(position)}
+            />
+          ))}
+        </div>
+      ) : null}
+    </div>
+  );
+}
 
 export function HomePage() {
   const { data, loading, error, reload } = useApi<HomePayload>('/api/home');
@@ -21,50 +158,7 @@ export function HomePage() {
         description="HP COLLECTION — sélection streetwear, sneakers et accessoires. Ton style. Tes règles."
       />
 
-      <section className="hero">
-        <div className="hero__copy">
-          <p className="eyebrow">HP COLLECTION — {payload?.settings.storeTagline ?? 'Ton style. Tes règles.'}</p>
-          <h1>{payload?.settings.heroTitle ?? 'Le vestiaire urbain, sans compromis.'}</h1>
-          <p className="hero__subtitle">
-            {payload?.settings.heroSubtitle ??
-              'Streetwear, sneakers et accessoires sélectionnés pour composer un style qui vous ressemble.'}
-          </p>
-          <div className="hero__actions">
-            <Link to={payload?.settings.heroCtaHref || '/boutique'} className="btn btn--primary">
-              {payload?.settings.heroCtaLabel || 'Découvrir la collection'}
-              <Icon name="arrow-right" size={18} />
-            </Link>
-            <Link to="/boutique?gender=femme" className="btn btn--text">
-              Mode femme
-            </Link>
-            <Link to="/boutique?category=sneakers" className="btn btn--text">
-              Voir les sneakers
-            </Link>
-          </div>
-          <ul className="hero__facts">
-            <li>
-              <Icon name="truck" size={18} />
-              Livraison offerte dès {formatPrice(payload?.settings.freeShippingThresholdCents ?? 5_000_000, currency)}
-            </li>
-            <li>
-              <Icon name="shield" size={18} />
-              Paiement à la réception disponible
-            </li>
-          </ul>
-        </div>
-        <div className="hero__media">
-          <img
-            src={payload?.settings.heroImageUrl || '/media/hero-hp-collection.jpg'}
-            alt="Mannequin portant un ensemble rouge HP COLLECTION"
-            width="1000"
-            height="750"
-          />
-          <div className="hero__caption">
-            <span>Sélection</span>
-            <strong>Vol. 01</strong>
-          </div>
-        </div>
-      </section>
+      <HeroSlider payload={payload} currency={currency} />
 
       {payload?.settings.demoNotice ? (
         <div className="demo-notice" role="note">

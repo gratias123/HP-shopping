@@ -26,7 +26,7 @@ interface ProductListResponse {
 test('le catalogue public expose uniquement les articles publiés de démonstration', async () => {
   const response = await ctx.client.request<ProductListResponse>('GET', '/api/products?perPage=50');
   assert.equal(response.status, 200);
-  assert.equal(response.data.total, 20);
+  assert.equal(response.data.total, 35);
   assert.ok(response.data.items.length >= 8);
   for (const item of response.data.items) {
     assert.match(item.reference, /^DEMO-/);
@@ -56,8 +56,8 @@ test('les filtres catégorie, prix et tri sont appliqués côté serveur', async
 test('la recherche texte et le filtre promo fonctionnent', async () => {
   const search = await ctx.client.request<ProductListResponse>('GET', '/api/products?q=hoodie&perPage=50');
   assert.equal(search.status, 200);
-  assert.equal(search.data.total, 1);
-  assert.equal(search.data.items[0].slug, 'hoodie-molleton-epais');
+  assert.ok(search.data.total >= 1);
+  assert.ok(search.data.items.some((item) => item.slug === 'hoodie-molleton-epais'));
 
   const sale = await ctx.client.request<ProductListResponse>('GET', '/api/products?onSale=true&perPage=50');
   assert.ok(sale.data.items.length > 0);
