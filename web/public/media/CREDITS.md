@@ -39,3 +39,15 @@ jour ce fichier.
 pour la page d’accueil. Vérifier avant production que les droits de la photo et
 l’accord du mannequin pour un usage commercial sont bien détenus.
 `product-ensemble.jpg` (Pexels 37124604) reste utilisé comme visuel de l’article de démonstration.
+
+## Photos Pexels (licence Pexels : usage commercial libre, sans attribution obligatoire)
+- Jeune homme en hoodie gris, mains dans les poches — https://www.pexels.com/photo/6311719/
+- Femme portant un hoodie rose — https://www.pexels.com/photo/6543909/
+- Femme portant une robe noire — https://www.pexels.com/photo/7383111/
+- Paire de sandales marron — https://www.pexels.com/photo/2961991/
+- Femme tenant un sac à main noir — https://www.pexels.com/photo/16346895/
+- Homme portant un t-shirt orange — https://www.pexels.com/photo/19425771/
+- Paire de sneakers noires — https://www.pexels.com/photo/8472953/
+- Homme portant une casquette rouge — https://www.pexels.com/photo/17085695/
+
+Ces photos sont chargées directement depuis Pexels. À remplacer par les photos réelles des articles dès qu'elles sont disponibles (Admin → Produits).
