@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-label="SHORT SPORT FEMME — ILLUSTRATION — illustration HP COLLECTION">
+  <defs><linearGradient id="b" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#EFE6F0"/><stop offset="1" stop-color="#DCCDE0"/></linearGradient></defs>
+  <rect width="800" height="1000" fill="url(#b)"/>
+  <circle cx="400" cy="450" r="230" fill="#8A5A9E" opacity=".18"/>
+  <text x="48" y="66" font-family="Arial, sans-serif" font-size="12" letter-spacing="5" fill="#777D86">HP COLLECTION</text>
+  <text x="48" y="90" font-family="Arial, sans-serif" font-size="10" letter-spacing="4" fill="#777D86">ILLUSTRATION · PHOTO À VENIR</text>
+  <ellipse cx="400" cy="800" rx="230" ry="22" fill="#171717" opacity=".1"/>
+  <g><path d="M285 220 H515 L535 550 H420 L400 420 L380 550 H265Z" fill="#8A5A9E"/><path d="M285 250 H515" stroke="#F4F1E9" stroke-width="5"/><text x="300" y="330" font-family="Arial Black, Arial, sans-serif" font-size="34" font-weight="900" letter-spacing="-2" fill="#F4F1E9">HP</text></g>
+  <path d="M48 916H752" stroke="#171717" stroke-opacity=".2"/>
+  <text x="48" y="952" font-family="Arial, sans-serif" font-size="16" letter-spacing="2" fill="#171717">SHORT SPORT FEMME — ILLUSTRATION</text>
+</svg>
