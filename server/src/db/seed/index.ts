@@ -668,7 +668,7 @@ const SETTINGS: Record<string, string> = {
   heroCtaLabel: 'Découvrir la boutique',
   heroCtaHref: '/boutique',
   heroImageUrl: '/media/hero-hp-collection.jpg',
-  announcement: 'Livraison offerte dès 50 000 FCFA à Cotonou (données de démonstration)',
+  announcement: '',
   contactEmail: 'contact@hpcollection.example',
   contactPhone: '',
   whatsappNumber: '',
