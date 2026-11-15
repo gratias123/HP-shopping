@@ -15,6 +15,7 @@ import { adminRouter } from './routes/admin/index.js';
 import { attachUser } from './middleware/auth.js';
 import { errorHandler, notFoundHandler } from './middleware/errors.js';
 import { csrfGuard, securityHeaders } from './middleware/security.js';
+import { persistOnWrite } from './services/persistence.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const webDist = path.resolve(here, '../../web/dist');
@@ -25,6 +26,7 @@ export function createApp(): Express {
   if (config.isProduction) app.set('trust proxy', 1);
 
   app.use(securityHeaders);
+  app.use(persistOnWrite);
   app.use(express.json({ limit: '1mb' }));
   app.use(attachUser);
   app.use(csrfGuard);
