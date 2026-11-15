@@ -3,6 +3,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { Router } from 'express';
 import multer from 'multer';
+import { pushMedia } from '../../services/persistence.js';
 import { config } from '../../config.js';
 import { ApiError } from '../../lib/errors.js';
 import { asyncHandler } from '../../lib/http.js';
@@ -53,6 +54,7 @@ adminUploadsRouter.post(
     const filename = `${crypto.randomUUID()}.${detected.ext}`;
     const target = path.join(config.uploadDir, filename);
     await fs.writeFile(target, req.file.buffer, { mode: 0o644, flag: 'wx' });
+    await pushMedia(filename, detected.mime, req.file.buffer);
     res.status(201).json({ url: `/uploads/${filename}`, mime: detected.mime, size: req.file.size });
   }),
 );
