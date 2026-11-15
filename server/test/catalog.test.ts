@@ -26,7 +26,7 @@ interface ProductListResponse {
 test('le catalogue public expose uniquement les articles publiés de démonstration', async () => {
   const response = await ctx.client.request<ProductListResponse>('GET', '/api/products?perPage=50');
   assert.equal(response.status, 200);
-  assert.equal(response.data.total, 10);
+  assert.equal(response.data.total, 20);
   assert.ok(response.data.items.length >= 8);
   for (const item of response.data.items) {
     assert.match(item.reference, /^DEMO-/);

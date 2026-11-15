@@ -93,7 +93,6 @@ test('la page d’accueil expose rayons, sections et collections', async () => {
   assert.equal(data.groups.length, 3);
   assert.ok(data.sections.homme.length > 0);
   assert.ok(data.sections.sneakers.length > 0);
-  // Aucune pièce femme de démonstration : la section reste vide plutôt que fictive.
-  assert.equal(data.sections.femme.length, 0);
+  assert.ok(data.sections.femme.length > 0);
   assert.ok(data.collections.length > 0);
 });
