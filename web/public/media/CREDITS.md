@@ -62,3 +62,11 @@ Ces photos sont chargées directement depuis Pexels. À remplacer par les photos
 - Homme en jean bleu et sneakers noires — https://www.pexels.com/photo/6764007/
 - Joueur de basketball en short noir — https://www.pexels.com/photo/8084779/
 - Homme portant un maillot de basketball rouge — https://www.pexels.com/photo/12361082/
+
+## Photos Pexels (lot 3)
+- Femme en jean — https://www.pexels.com/photo/18591712/
+- Survêtement noir — https://www.pexels.com/photo/28540142/
+- Veste en jean — https://www.pexels.com/photo/9874909/
+- T-shirt blanc — https://www.pexels.com/photo/2698918/
+- Robe jaune — https://www.pexels.com/photo/1104035/
+- Sac à dos — https://www.pexels.com/photo/16359299/
