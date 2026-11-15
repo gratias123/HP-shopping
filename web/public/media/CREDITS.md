@@ -51,3 +51,14 @@ l’accord du mannequin pour un usage commercial sont bien détenus.
 - Homme portant une casquette rouge — https://www.pexels.com/photo/17085695/
 
 Ces photos sont chargées directement depuis Pexels. À remplacer par les photos réelles des articles dès qu'elles sont disponibles (Admin → Produits).
+
+## Photos Pexels (lot 2)
+- Femme en costume bordeaux — https://www.pexels.com/photo/31346180/
+- Femme portant un crop top blanc — https://www.pexels.com/photo/3561986/
+- Femme portant une veste verte — https://www.pexels.com/photo/10594812/
+- Personne tenant un sac à main en cuir marron — https://www.pexels.com/photo/6650009/
+- Femme portant des sneakers blanches — https://www.pexels.com/photo/27008322/
+- Homme portant un polo bleu marine — https://www.pexels.com/photo/35495782/
+- Homme en jean bleu et sneakers noires — https://www.pexels.com/photo/6764007/
+- Joueur de basketball en short noir — https://www.pexels.com/photo/8084779/
+- Homme portant un maillot de basketball rouge — https://www.pexels.com/photo/12361082/
