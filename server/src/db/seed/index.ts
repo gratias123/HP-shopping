@@ -1,5 +1,5 @@
 import crypto from 'node:crypto';
-import { execute, queryOne } from '../index.js';
+import { execute, queryAll, queryOne } from '../index.js';
 import { nowIso } from '../../lib/ids.js';
 
 interface DemoVariant {
@@ -750,6 +750,134 @@ const PRODUCTS: DemoProduct[] = [
     care: 'Lavage à 30 °C.',
     variants: [{ size: 'TU', color: 'Noir', colorHex: '#171717', stock: 12 }],
   },
+  {
+    name: 'Ensemble beige blazer & pantalon large',
+    slug: 'ensemble-beige-femme',
+    reference: 'DEMO-FE42',
+    category: 'femme-ensembles',
+    gender: 'femme',
+    collection: 'Nouvelle saison',
+    shortDescription: 'Blazer long et pantalon large assortis.',
+    description: 'Blazer long et pantalon large assortis.' + NOTE,
+    priceCents: 3490000, isFeatured: true,
+    image: 'https://images.pexels.com/photos/18173600/pexels-photo-18173600.jpeg?auto=compress&cs=tinysrgb&w=900',
+    imageAlt: 'Photo Pexels : Femme en blazer long beige et pantalon large',
+    composition: 'Exemple de démonstration.',
+    care: 'Lavage à 30 °C.',
+    variants: COLORS([['Beige', '#D8C3A5']], ['S', 'M', 'L', 'XL']),
+  },
+  {
+    name: 'Robe imprimée wax',
+    slug: 'robe-imprimee-wax',
+    reference: 'DEMO-FR43',
+    category: 'femme-ensembles',
+    gender: 'femme',
+    collection: 'Collection wax',
+    shortDescription: 'Imprimé wax vibrant, coupe évasée.',
+    description: 'Imprimé wax vibrant, coupe évasée.' + NOTE,
+    priceCents: 2490000, isFeatured: true,
+    image: 'https://images.pexels.com/photos/30247274/pexels-photo-30247274.jpeg?auto=compress&cs=tinysrgb&w=900',
+    imageAlt: 'Photo Pexels : Femme en robe à imprimé africain',
+    composition: 'Exemple de démonstration.',
+    care: 'Lavage à 30 °C.',
+    variants: COLORS([['Imprimé multicolore', '#C7512F']], ['S', 'M', 'L', 'XL']),
+  },
+  {
+    name: 'Hoodie rouge femme',
+    slug: 'hoodie-rouge-femme',
+    reference: 'DEMO-FH44',
+    category: 'femme-ensembles',
+    gender: 'femme',
+    collection: 'Nouvelle saison',
+    shortDescription: 'Molleton doux, capuche, coupe ample.',
+    description: 'Molleton doux, capuche, coupe ample.' + NOTE,
+    priceCents: 2190000,
+    image: 'https://images.pexels.com/photos/10448589/pexels-photo-10448589.jpeg?auto=compress&cs=tinysrgb&w=900',
+    imageAlt: 'Photo Pexels : Femme portant un hoodie rouge',
+    composition: 'Exemple de démonstration.',
+    care: 'Lavage à 30 °C.',
+    variants: COLORS([['Rouge', '#B5301F']], ['S', 'M', 'L', 'XL']),
+  },
+  {
+    name: 'Lunettes de soleil rondes',
+    slug: 'lunettes-soleil-rondes',
+    reference: 'DEMO-FA45',
+    category: 'femme-accessoires',
+    gender: 'femme',
+    collection: 'Saison chaude',
+    shortDescription: 'Monture ronde, verres teintés UV.',
+    description: 'Monture ronde, verres teintés UV.' + NOTE,
+    priceCents: 790000,
+    image: 'https://images.pexels.com/photos/19269891/pexels-photo-19269891.jpeg?auto=compress&cs=tinysrgb&w=900',
+    imageAlt: 'Photo Pexels : Femme portant des lunettes de soleil rondes',
+    composition: 'Exemple de démonstration.',
+    care: 'Lavage à 30 °C.',
+    variants: [{ size: 'TU', color: 'Noir', colorHex: '#171717', stock: 15 }],
+  },
+  {
+    name: 'Legging de sport gris',
+    slug: 'legging-sport-gris',
+    reference: 'DEMO-FL46',
+    category: 'sport-tenues-casual',
+    gender: 'femme',
+    collection: 'Sport',
+    shortDescription: 'Taille haute, tissu respirant et opaque.',
+    description: 'Taille haute, tissu respirant et opaque.' + NOTE,
+    priceCents: 990000,
+    image: 'https://images.pexels.com/photos/3621168/pexels-photo-3621168.jpeg?auto=compress&cs=tinysrgb&w=900',
+    imageAlt: 'Photo Pexels : Femme en legging gris',
+    composition: 'Exemple de démonstration.',
+    care: 'Lavage à 30 °C.',
+    variants: COLORS([['Gris', '#777D86']], ['S', 'M', 'L', 'XL']),
+  },
+  {
+    name: 'Pantalon chino beige',
+    slug: 'pantalon-chino-beige',
+    reference: 'DEMO-HP47',
+    category: 'homme-pantalons',
+    gender: 'homme',
+    collection: 'Essentiels urbains',
+    shortDescription: 'Coupe droite, coton léger.',
+    description: 'Coupe droite, coton léger.' + NOTE,
+    priceCents: 1790000,
+    image: 'https://images.pexels.com/photos/12056637/pexels-photo-12056637.jpeg?auto=compress&cs=tinysrgb&w=900',
+    imageAlt: 'Photo Pexels : Homme en pantalon beige',
+    composition: 'Exemple de démonstration.',
+    care: 'Lavage à 30 °C.',
+    variants: COLORS([['Beige', '#D8C3A5']], ['28', '30', '32', '34', '36']),
+  },
+  {
+    name: 'T-shirt rayé',
+    slug: 'tshirt-raye',
+    reference: 'DEMO-HT48',
+    category: 'homme-t-shirts',
+    gender: 'homme',
+    collection: 'Saison chaude',
+    shortDescription: 'Rayures marinière, coton souple.',
+    description: 'Rayures marinière, coton souple.' + NOTE,
+    priceCents: 890000,
+    image: 'https://images.pexels.com/photos/19223930/pexels-photo-19223930.jpeg?auto=compress&cs=tinysrgb&w=900',
+    imageAlt: 'Photo Pexels : Homme portant un t-shirt rayé',
+    composition: 'Exemple de démonstration.',
+    care: 'Lavage à 30 °C.',
+    variants: COLORS([['Rayé', '#1F3A5F']], ['S', 'M', 'L', 'XL']),
+  },
+  {
+    name: 'Bonnet noir côtelé',
+    slug: 'bonnet-noir-cotele',
+    reference: 'DEMO-HK49',
+    category: 'homme-casquettes',
+    gender: 'mixte',
+    collection: 'Essentiels urbains',
+    shortDescription: 'Maille côtelée, taille unique.',
+    description: 'Maille côtelée, taille unique.' + NOTE,
+    priceCents: 490000,
+    image: 'https://images.pexels.com/photos/9931681/pexels-photo-9931681.jpeg?auto=compress&cs=tinysrgb&w=900',
+    imageAlt: 'Photo Pexels : Homme portant un bonnet noir',
+    composition: 'Exemple de démonstration.',
+    care: 'Lavage à 30 °C.',
+    variants: [{ size: 'TU', color: 'Noir', colorHex: '#171717', stock: 14 }],
+  },
 ];
 
 const SETTINGS: Record<string, string> = {
@@ -795,6 +923,61 @@ const SETTINGS: Record<string, string> = {
  * contient déjà un catalogue. Les articles sont explicitement identifiés
  * comme fictifs (références DEMO-*).
  */
+function insertDemoProduct(product: DemoProduct, now: string, saleStart: string, saleEnd: string): void {
+  const productId = crypto.randomUUID();
+  const categoryId = queryOne<{ id: string }>('SELECT id FROM categories WHERE slug = ?', [product.category])?.id;
+  if (!categoryId) throw new Error(`Catégorie de démonstration introuvable : ${product.category}`);
+  execute(
+    `INSERT INTO products (id, reference, slug, name, short_description, description, composition, care, category_id,
+      price_cents, sale_price_cents, sale_starts_at, sale_ends_at, status, is_featured, gender, collection, low_stock_alert, created_at, updated_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'published', ?, ?, ?, 4, ?, ?)`,
+    [
+      productId,
+      product.reference,
+      product.slug,
+      product.name,
+      product.shortDescription,
+      product.description,
+      product.composition,
+      product.care,
+      categoryId,
+      product.priceCents,
+      product.salePriceCents ?? null,
+      product.salePriceCents ? saleStart : null,
+      product.salePriceCents ? saleEnd : null,
+      product.isFeatured ? 1 : 0,
+      product.gender,
+      product.collection,
+      now,
+      now,
+    ],
+  );
+  execute('INSERT INTO product_images (id, product_id, url, alt, sort_order, created_at) VALUES (?, ?, ?, ?, 0, ?)', [
+    crypto.randomUUID(),
+    productId,
+    product.image,
+    product.imageAlt,
+    now,
+  ]);
+  for (const variant of product.variants) {
+    execute(
+      `INSERT INTO product_variants (id, product_id, sku, size, color, color_hex, stock, is_active, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?, ?)`,
+      [
+        crypto.randomUUID(),
+        productId,
+        `${product.reference}-${variant.size}-${variant.color.replace(/\s+/g, '').toUpperCase()}`.slice(0, 60),
+        variant.size,
+        variant.color,
+        variant.colorHex,
+        variant.stock,
+        now,
+        now,
+      ],
+    );
+  }
+}
+
 export function seedDatabase(): { seeded: boolean; products: number } {
   const marker = queryOne<{ value: string }>("SELECT value FROM settings WHERE key = 'seeded_at'");
   if (marker) return { seeded: false, products: 0 };
@@ -803,60 +986,7 @@ export function seedDatabase(): { seeded: boolean; products: number } {
   const saleStart = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
   const saleEnd = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString();
 
-  for (const product of PRODUCTS) {
-    const productId = crypto.randomUUID();
-    const categoryId = queryOne<{ id: string }>('SELECT id FROM categories WHERE slug = ?', [product.category])?.id;
-    if (!categoryId) throw new Error(`Catégorie de démonstration introuvable : ${product.category}`);
-    execute(
-      `INSERT INTO products (id, reference, slug, name, short_description, description, composition, care, category_id,
-        price_cents, sale_price_cents, sale_starts_at, sale_ends_at, status, is_featured, gender, collection, low_stock_alert, created_at, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'published', ?, ?, ?, 4, ?, ?)`,
-      [
-        productId,
-        product.reference,
-        product.slug,
-        product.name,
-        product.shortDescription,
-        product.description,
-        product.composition,
-        product.care,
-        categoryId,
-        product.priceCents,
-        product.salePriceCents ?? null,
-        product.salePriceCents ? saleStart : null,
-        product.salePriceCents ? saleEnd : null,
-        product.isFeatured ? 1 : 0,
-        product.gender,
-        product.collection,
-        now,
-        now,
-      ],
-    );
-    execute('INSERT INTO product_images (id, product_id, url, alt, sort_order, created_at) VALUES (?, ?, ?, ?, 0, ?)', [
-      crypto.randomUUID(),
-      productId,
-      product.image,
-      product.imageAlt,
-      now,
-    ]);
-    for (const variant of product.variants) {
-      execute(
-        `INSERT INTO product_variants (id, product_id, sku, size, color, color_hex, stock, is_active, created_at, updated_at)
-         VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?, ?)`,
-        [
-          crypto.randomUUID(),
-          productId,
-          `${product.reference}-${variant.size}-${variant.color.replace(/\s+/g, '').toUpperCase()}`.slice(0, 60),
-          variant.size,
-          variant.color,
-          variant.colorHex,
-          variant.stock,
-          now,
-          now,
-        ],
-      );
-    }
-  }
+  for (const product of PRODUCTS) insertDemoProduct(product, now, saleStart, saleEnd);
 
   execute(
     `INSERT INTO stock_movements (
@@ -926,4 +1056,41 @@ export function seedDatabase(): { seeded: boolean; products: number } {
 
 export function isEmptyCatalog(): boolean {
   return Number(queryOne<{ total: number }>('SELECT COUNT(*) AS total FROM products')?.total ?? 0) === 0;
+}
+
+/**
+ * Ajoute au catalogue existant les articles de démonstration publiés après la création de la base
+ * (la base est conservée entre les redémarrages). Un article déjà présent, supprimé ou archivé
+ * par l'administrateur n'est jamais recréé : la liste des références traitées est mémorisée.
+ */
+export function syncDemoProducts(): number {
+  if (!queryOne("SELECT value FROM settings WHERE key = 'seeded_at'")) return 0;
+  let ledger: string[];
+  const raw = queryOne<{ value: string }>("SELECT value FROM settings WHERE key = 'seed_ledger'")?.value;
+  if (raw) {
+    ledger = JSON.parse(raw) as string[];
+  } else {
+    ledger = queryAll<{ slug: string }>('SELECT slug FROM products').map((row) => row.slug);
+  }
+  const now = nowIso();
+  const saleStart = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+  const saleEnd = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString();
+  let added = 0;
+  for (const product of PRODUCTS) {
+    if (ledger.includes(product.slug)) continue;
+    ledger.push(product.slug);
+    if (queryOne('SELECT 1 AS ok FROM products WHERE slug = ? OR reference = ?', [product.slug, product.reference])) continue;
+    insertDemoProduct(product, now, saleStart, saleEnd);
+    added += 1;
+  }
+  execute(
+    `INSERT INTO stock_movements (id, product_id, variant_id, sku, size, color, delta, stock_before, stock_after, reason, reference, note, actor_label, created_at)
+     SELECT lower(hex(randomblob(16))), v.product_id, v.id, v.sku, v.size, v.color, v.stock, 0, v.stock, 'initial', v.sku,
+            'Stock initial de démonstration', 'Seed', ?
+       FROM product_variants v
+      WHERE v.stock > 0 AND NOT EXISTS (SELECT 1 FROM stock_movements m WHERE m.variant_id = v.id)`,
+    [now],
+  );
+  execute("INSERT OR REPLACE INTO settings (key, value, updated_at) VALUES ('seed_ledger', ?, ?)", [JSON.stringify(ledger), now]);
+  return added;
 }

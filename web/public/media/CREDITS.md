@@ -70,3 +70,13 @@ Ces photos sont chargées directement depuis Pexels. À remplacer par les photos
 - T-shirt blanc — https://www.pexels.com/photo/2698918/
 - Robe jaune — https://www.pexels.com/photo/1104035/
 - Sac à dos — https://www.pexels.com/photo/16359299/
+
+## Photos Pexels (lot 4)
+- Blazer et pantalon large beige — https://www.pexels.com/photo/18173600/
+- Robe à imprimé africain — https://www.pexels.com/photo/30247274/
+- Hoodie rouge femme — https://www.pexels.com/photo/10448589/
+- Lunettes de soleil rondes — https://www.pexels.com/photo/19269891/
+- Legging gris — https://www.pexels.com/photo/3621168/
+- Pantalon beige — https://www.pexels.com/photo/12056637/
+- T-shirt rayé — https://www.pexels.com/photo/19223930/
+- Bonnet noir — https://www.pexels.com/photo/9931681/

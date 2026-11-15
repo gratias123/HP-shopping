@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import { assertConfig, config } from './config.js';
 import { initDatabase, closeDatabase } from './db/index.js';
-import { seedDatabase } from './db/seed/index.js';
+import { seedDatabase, syncDemoProducts } from './db/seed/index.js';
 import { pruneExpiredSessions } from './lib/auth.js';
 import { createApp } from './app.js';
 import { flushOnShutdown, restoreIfNeeded, startPersistence } from './services/persistence.js';
@@ -19,6 +19,11 @@ if (!config.isProduction) {
   if (result.seeded) {
     console.info(`[hp-collection] Catalogue de démonstration créé (${result.products} articles, références DEMO-*).`);
   }
+}
+
+{
+  const added = syncDemoProducts();
+  if (added > 0) console.info(`[hp-collection] ${added} nouvel(s) article(s) de démonstration ajouté(s).`);
 }
 
 const app = createApp();
