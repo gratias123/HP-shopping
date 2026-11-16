@@ -44,7 +44,7 @@ function HeroSlider({ payload, currency }: { payload: HomePayload | null; curren
     seen.add(item.id);
     return true;
   });
-  picks.slice(0, 5).forEach((item) => {
+  picks.slice(0, 7).forEach((item) => {
     slides.push({
       eyebrow: item.onSale ? 'Promotion' : item.collection || item.category.name,
       title: item.name,

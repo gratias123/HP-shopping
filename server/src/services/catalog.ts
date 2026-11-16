@@ -171,8 +171,14 @@ export function listProducts(query: ProductQuery = {}): { items: ProductCard[]; 
     }
   }
   if (query.collection) {
-    where.push('p.collection = ? COLLATE NOCASE');
-    params.push(query.collection);
+    // SQLite ne met en minuscules que l'ASCII : on retrouve le nom exact en JS (accents compris).
+    const wanted = query.collection.trim().toLocaleLowerCase('fr');
+    const canonical =
+      queryAll<{ name: string }>('SELECT DISTINCT collection AS name FROM products WHERE collection IS NOT NULL')
+        .map((row) => row.name)
+        .find((name) => name.trim().toLocaleLowerCase('fr') === wanted) ?? query.collection;
+    where.push('p.collection = ?');
+    params.push(canonical);
   }
   if (query.sizes?.length) {
     where.push(
@@ -438,7 +444,7 @@ export function hasSalesData(): boolean {
 export function homePayload() {
   const settings = getSettings();
   const newArrivals = listProducts({ perPage: 4, sort: 'newest' }).items;
-  const featured = listProducts({ perPage: 4, featuredOnly: true, sort: 'newest' }).items;
+  const featured = listProducts({ perPage: 7, featuredOnly: true, sort: 'newest' }).items;
   const sale = listProducts({ perPage: 4, onSaleOnly: true, sort: 'newest' }).items;
   const allCategories = listCategories();
   const hasChildren = (id: string) => allCategories.some((entry) => entry.parentId === id);
