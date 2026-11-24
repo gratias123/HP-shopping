@@ -70,7 +70,7 @@ export function SiteProvider({ children }: { children: ReactNode }) {
   const load = useCallback(async (signal?: AbortSignal) => {
     try {
       const data = await api.get<{ settings: SiteSettings; store: StoreConfig }>('/api/store', signal);
-      setSettings(data.settings);
+      setSettings({ ...FALLBACK_SETTINGS, ...data.settings });
       setStore(data.store);
     } catch {
       // Les valeurs de repli restent affichées : la boutique ne casse pas.

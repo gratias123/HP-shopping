@@ -96,3 +96,13 @@ test('la page d’accueil expose rayons, sections et collections', async () => {
   assert.ok(data.sections.femme.length > 0);
   assert.ok(data.collections.length > 0);
 });
+
+test('l’API publique ne renvoie aucune information d’administration', async () => {
+  for (const path of ['/api/store', '/api/home']) {
+    const { data } = await ctx.client.request<{ settings: Record<string, unknown> }>('GET', path);
+    for (const key of ['hostName', 'hostAddress', 'hostPhone', 'hostEmail', 'legalPublisher']) {
+      assert.equal(key in data.settings, false, `${key} exposé sur ${path}`);
+    }
+    assert.ok('storeName' in data.settings);
+  }
+});

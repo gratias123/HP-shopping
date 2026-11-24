@@ -1,7 +1,7 @@
 import crypto from 'node:crypto';
 import { execute, queryAll, queryOne, type SqlPrimitive } from '../db/index.js';
 import { nowIso } from '../lib/ids.js';
-import { getSettings } from './settings.js';
+import { getPublicSettings } from './settings.js';
 
 const NOW = () => `'${nowIso()}'`;
 
@@ -442,7 +442,7 @@ export function hasSalesData(): boolean {
 }
 
 export function homePayload() {
-  const settings = getSettings();
+  const settings = getPublicSettings();
   const newArrivals = listProducts({ perPage: 4, sort: 'newest' }).items;
   const featured = listProducts({ perPage: 7, featuredOnly: true, sort: 'newest' }).items;
   const sale = listProducts({ perPage: 4, onSaleOnly: true, sort: 'newest' }).items;

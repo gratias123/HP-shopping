@@ -94,6 +94,17 @@ export function getSettings(): SiteSettings {
   return settings;
 }
 
+/** Champs réservés à l'administration : jamais renvoyés par l'API publique. */
+const ADMIN_ONLY_KEYS = new Set<keyof SiteSettings>(['hostName', 'hostAddress', 'hostPhone', 'hostEmail', 'legalPublisher']);
+
+/** Réglages publics de la boutique (sans coordonnées internes ni informations d'administration). */
+export function getPublicSettings(): Partial<SiteSettings> {
+  const all = getSettings();
+  return Object.fromEntries(
+    Object.entries(all).filter(([key]) => !ADMIN_ONLY_KEYS.has(key as keyof SiteSettings)),
+  ) as Partial<SiteSettings>;
+}
+
 export function saveSettings(values: SiteSettings): SiteSettings {
   for (const [key, value] of Object.entries(values)) {
     if (!(key in DEFAULT_SETTINGS)) continue;

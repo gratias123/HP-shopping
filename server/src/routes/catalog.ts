@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { publicStoreConfig, getSettings } from '../services/settings.js';
+import { publicStoreConfig, getPublicSettings } from '../services/settings.js';
 import { getCategoryBySlug, getProductBySlug, homePayload, listCategories, listFacets, listProducts, listCollections } from '../services/catalog.js';
 import { ApiError } from '../lib/errors.js';
 import { parseBoolean, parseInteger, parseList } from '../lib/http.js';
@@ -13,7 +13,7 @@ catalogRouter.get('/home', (_req, res) => {
 });
 
 catalogRouter.get('/store', (_req, res) => {
-  res.json({ settings: getSettings(), store: publicStoreConfig() });
+  res.json({ settings: getPublicSettings(), store: publicStoreConfig() });
 });
 
 catalogRouter.get('/products', (req, res) => {
@@ -71,6 +71,6 @@ catalogRouter.get('/shipping/options', (req, res) => {
   res.json({
     country: country.toUpperCase(),
     methods: listShippingOptions(country, subtotal),
-    freeShippingThresholdCents: getSettings().freeShippingThresholdCents,
+    freeShippingThresholdCents: getPublicSettings().freeShippingThresholdCents,
   });
 });
